@@ -23,7 +23,7 @@ include("dbconnect.php");
 			<li class="current_page_item"><a href="rent.php">Rent a Room</a></li>
 			<li><a href="#">Manager Login</a></li>
 			<li><a href="#">About Us</a></li>
-			<li><a href="#">Links</a></li>
+			<li><a href="cancel.php">Cancel Reservation</a></li>
 			<li><a href="#">Contact Us</a></li>
 		</ul>
 	</div>
@@ -44,12 +44,12 @@ include("dbconnect.php");
 				$credit = mysqli_real_escape_string($conn,$_POST['CC']);
 				$discount = mysqli_real_escape_string($conn,$_POST['discount']);
 				$smoke = mysqli_real_escape_string($conn,$_POST['smoke']);
-				if(empty($hotel) || empty($room) || empty($name) || empty($address) || empty($credit) || empty($discount) || empty($smoke))
+				if(empty($hotel) || empty($room) || empty($name) || empty($address) || empty($credit) || empty($smoke))
 				{
 					$error = true;
 				}
 				if($error)
-					echo "<p>You must fill out the form! Please try to make a reservation again </p>";
+					echo "<p>You must fill out the form correctly! Please try to make a reservation again </p>";
 				else
 				{
 					$sql = "SELECT hID FROM hotels WHERE companyName = '$hotel'";
@@ -67,6 +67,7 @@ include("dbconnect.php");
 						die('Invalid query: ' . mysqli_error($conn));
 					}
 					echo "<p>Successfully added your reservation for $hotel in " . $_POST['location'] . " room: $room on $sDate to $eDate</p>";
+					echo "<p>Your is Hotel ID is: " . $HID . " , your Room Number is $room and your customer ID is: $counter. You can use this informaton to view or cancel your reservation.";
 				}
 					
 			?>	
@@ -76,6 +77,7 @@ include("dbconnect.php");
 </div>
 <div id="footer" class="container">
 	<p>&copy; Untitled. All rights reserved. Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. </p>
+
 </div>
 </body>
 </html>
