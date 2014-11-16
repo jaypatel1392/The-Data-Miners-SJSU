@@ -31,7 +31,7 @@ Released   : 20130428
 <div id="menu-wrapper">
 	<div id="menu" class="container">
 		<ul>
-			<li><a href="#">Homepage</a></li>
+			<li><a href="index.php">Homepage</a></li>
 			<li><a href="rent.php">Rent a Room</a></li>
 			<li><a href="#">Manager Login</a></li>
 			<li><a href="#">About Us</a></li>
@@ -56,13 +56,13 @@ Released   : 20130428
 				$cid    = $conn->query("SELECT cID FROM customer 
 										WHERE rStartDate = '$sDate' AND rEndDate = '$eDate'
 										AND rID = '$roomNo';");
-				
+				$cid = $cid->fetch_assoc();
 				$hID    = $conn->query("SELECT hID FROM hotels WHERE companyName = '$hotel'");
-				
-				$sql = "UPDATE rooms SET occupied=FALSE WHERE hID='$hID' AND rID='$roomNo' AND occupied=TRUE;";
+				$hID = $hID->fetch_assoc();
+				$sql = "UPDATE rooms SET occupied=FALSE WHERE hID='" . $hID['hID'] . "' AND rID='$roomNo' AND occupied=TRUE;";
 				$conn->query($sql);
 				
-				$sql = "DELETE from customer WHERE cID = '$cid' AND hID = '$hID' AND rID = '$roomNo';";
+				$sql = "DELETE from customer WHERE cID = '" . $cid['cID'] . "' AND hID = '" . $hID['hID'] . "' AND rID = '$roomNo';";
 				$conn->query($sql);
 			?>
 			
