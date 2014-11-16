@@ -31,11 +31,11 @@ Released   : 20130428
 <div id="menu-wrapper">
 	<div id="menu" class="container">
 		<ul>
-			<li><a href="#">Homepage</a></li>
+			<li><a href="index.php">Homepage</a></li>
 			<li class="current_page_item"><a href="rent.php">Rent a Room</a></li>
 			<li><a href="#">Manager Login</a></li>
 			<li><a href="#">About Us</a></li>
-			<li><a href="#">Links</a></li>
+			<li><a href="cancel.php">Cancel Reservation</a></li>
 			<li><a href="#">Contact Us</a></li>
 		</ul>
 	</div>
@@ -44,84 +44,94 @@ Released   : 20130428
 	<div id="box1">
 		<h2 class="title"><a href="#">Welcome to JAT Hotels</a></h2>
 		<div style="clear: both;">&nbsp;</div>
-		<div class="entry">
-			<p>These are the rooms we found available on your selected date and location!</p>
-			
+		<div class="entry">			
 			<?php 
 				$sDate = $_GET['startDate'];
 				$eDate = $_GET['endDate'];
 				$location = $_GET['location'];
+				$error = false;
+				if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$sDate) 
+						|| !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$eDate) )
+				{
+					$error =  true;
+				}
 				
-				$sql = "SELECT distinct hotels.hID AS HID, hotels.companyName AS CNAME, rooms.rID AS RID, rooms.smoking AS SMOKE, rooms.price AS PRICE
-				FROM hotels NATURAL JOIN rooms JOIN customer
-				WHERE location = '$location' 
-				       AND rooms.rID NOT IN( SELECT rooms.rID
-				                             FROM customer JOIN rooms
-				                             WHERE customer.rID = rooms.rID
-				                            		AND rStartDate <= '$sDate'
-				                            		AND rEndDate >=  '$eDate')";
-				$result = $conn->query($sql);
-				$rs = $result->fetch_assoc();
-			
-				echo "<table>
-			<thead>
-		    <tr>	
-			<th>HotelID</th>
-			<th>Hotel Name</th>
-			<th>Room Number</th>
-			<th>Smoking</th>
-			<th>Price</th>
-		</tr>
-	</thead>";
-				$HID = array();
-				$RID = array();
-				while($row = mysqli_fetch_array($result))
-				{   //Creates a loop to loop through results
-					if($row['SMOKE'] == 1)
-					{
-						$row['SMOKE'] = "Yes";
-					}
-					else
-					{
-						$row['SMOKE'] = "No";
-					}
-				$HID[] = $row['CNAME'];
-				$RID[] = $row['RID'];	
-				echo "<tr><td>" . $row['HID'] . "</td><td>" . $row['CNAME'] . "</td><td>" . $row['RID'] . "</td><td>" . $row['SMOKE'] . "</td><td>" .$row['PRICE']. "</td></tr>"; 
-				}
-				$HID = array_unique($HID);
-				echo "</table>";
-				echo "<form action= submit.php method = 'post'>
-					<p>Please Select a Hotel:</p>
-					<select name= 'hotel'>";					
-				foreach($HID as $item)
+				if(!$error)
 				{
-					echo "<option value='$item'>$item</option>";
-				}	
-				echo "</select><br>";
-				echo "<p>Please Select a room:</p>
-					<select name= 'room'>";
-				foreach($RID as $room)
-				{
-					echo "<option value='$room'>$room</option>";
+					echo "<p>These are the rooms we found available on your selected date and location!</p>";
+					$sql = "SELECT distinct hotels.hID AS HID, hotels.companyName AS CNAME, rooms.rID AS RID, rooms.smoking AS SMOKE, rooms.price AS PRICE
+					FROM hotels NATURAL JOIN rooms JOIN customer
+					WHERE location = '$location' 
+					       AND rooms.rID NOT IN( SELECT rooms.rID
+					                             FROM customer JOIN rooms
+					                             WHERE customer.rID = rooms.rID
+					                            		AND rStartDate <= '$sDate'
+					                            		AND rEndDate >=  '$eDate')";
+					$result = $conn->query($sql);
+					$rs = $result->fetch_assoc();
+				
+					echo "<table>
+				<thead>
+			    <tr>	
+				<th>HotelID</th>
+				<th>Hotel Name</th>
+				<th>Room Number</th>
+				<th>Smoking</th>
+				<th>Price</th>
+			</tr>
+		</thead>";
+					$HID = array();
+					$RID = array();
+					while($row = mysqli_fetch_array($result))
+					{   //Creates a loop to loop through results
+						if($row['SMOKE'] == 1)
+						{
+							$row['SMOKE'] = "Yes";
+						}
+						else
+						{
+							$row['SMOKE'] = "No";
+						}
+					$HID[] = $row['CNAME'];
+					$RID[] = $row['RID'];	
+					echo "<tr><td>" . $row['HID'] . "</td><td>" . $row['CNAME'] . "</td><td>" . $row['RID'] . "</td><td>" . $row['SMOKE'] . "</td><td>" .$row['PRICE']. "</td></tr>"; 
+					}
+					$HID = array_unique($HID);
+					echo "</table>";
+					echo "<form action= submit.php method = 'post'>
+						<p>Please Select a Hotel:</p>
+						<select name= 'hotel'>";					
+					foreach($HID as $item)
+					{
+						echo "<option value='$item'>$item</option>";
+					}	
+					echo "</select><br>";
+					echo "<p>Please Select a room:</p>
+						<select name= 'room'>";
+					foreach($RID as $room)
+					{
+						echo "<option value='$room'>$room</option>";
+					}
+					echo "</select><br><br>
+							<p>Please enter your name:</p>
+				<input type='text' name='name'></input><br>
+							<p>Please enter your address:</p>
+				<input type='text' name='address'></input><br>
+							<p>Please enter your credit card number:</p>
+				<input type='text' name='CC'></input>
+							<p>Please enter your discount amount:</p>
+				<input type='text' name='discount'></input><br><br>
+				Are you a smoker?
+							<input type='radio' name='smoke' value='true'>Smoker
+							<input type='radio' name='smoke' value='false'>Non Smoker
+					<input type='hidden' name='sDate' value='$sDate' />
+					<input type='hidden' name='location' value='$location' />
+					<input type='hidden' name='eDate' value='$eDate' />";
+					echo "<br><br><input type='submit' value='Confirm your reservation'>	
+					</form>";	
 				}
-				echo "</select><br><br>
-						<p>Please enter your name:</p>
-			<input type='text' name='name'></input><br>
-						<p>Please enter your address:</p>
-			<input type='text' name='address'></input><br>
-						<p>Please enter your credit card number:</p>
-			<input type='text' name='CC'></input>
-						<p>Please enter your discount amount:</p>
-			<input type='text' name='discount'></input><br><br>
-			Are you a smoker?
-						<input type='radio' name='smoke' value='true'>Smoker
-						<input type='radio' name='smoke' value='false'>Non Smoker
-				<input type='hidden' name='sDate' value='$sDate' />
-				<input type='hidden' name='location' value='$location' />
-				<input type='hidden' name='eDate' value='$eDate' />";
-				echo "<br><br><input type='submit' value='Confirm your reservation'>	
-				</form>";	
+				else
+					echo "<p>Please try again with a correct starting date and end date!</p>";
 			?>
 			
 		</div>
