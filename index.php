@@ -31,7 +31,7 @@ Released   : 20130428
 			<li><a href="rent.php">Rent a Room</a></li>
 			<li><a href="#">Manager Login</a></li>
 			<li><a href="#">About Us</a></li>
-			<li><a href="#">Links</a></li>
+			<li><a href="cancel.php">Cancel Reservation</a></li>
 			<li><a href="#">Contact Us</a></li>
 		</ul>
 	</div>
