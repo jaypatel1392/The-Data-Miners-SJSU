@@ -14,16 +14,16 @@ include("dbconnect.php");
 </head>
 <body>
 <div id="logo" class="container">
-	<h1><a href="../index.php">JAT Hotels</a></h1>
+	<h1><a href="#">JAT Hotels</a></h1>
 </div>
 <div id="menu-wrapper">
 	<div id="menu" class="container">
 		<ul>
-			<li><a href="../index.php">Homepage</a></li>
+			<li><a href="#">Homepage</a></li>
 			<li class="current_page_item"><a href="rent.php">Rent a Room</a></li>
-			<li><a href="manager/login.php">Manager Login</a></li>
-			<li><a href="cancel.php">Cancel Reservation</a></li>
+			<li><a href="#">Manager Login</a></li>
 			<li><a href="#">About Us</a></li>
+			<li><a href="cancel.php">Cancel Reservation</a></li>
 			<li><a href="#">Contact Us</a></li>
 		</ul>
 	</div>
@@ -60,7 +60,7 @@ include("dbconnect.php");
 					$result = $conn->query($sql);
 					$counter = $result->fetch_assoc();
 					$counter = $counter['number'];
-					$query = "INSERT INTO customer VALUES( '$counter', '$HID', '$room', '$name', '$address', '$credit', '$smoke', '$sDate', '$eDate', '$discount');"; 
+					$query =  "INSERT INTO `JAT_RESERVATION`.`customer` (`cID`, `hID`, `rID`, `name`, `address`, `ccNo`, `smoker`, `rStartDate`, `rEndDate`, `discount`, `updatedAt`)  VALUES( '$counter', '$HID', '$room', '$name', '$address', '$credit', '$smoke', '$sDate', '$eDate', '$discount', CURRENT_TIMESTAMP);"; 
 					$result = mysqli_query($conn, $query);
 					if (!$result)
 					{
