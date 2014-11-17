@@ -45,7 +45,7 @@ Released   : 20130428
 		<h2 class="title"><a href="#">Welcome to JAT Hotels</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
-			<p>I'm going to need to do something to show it was deleted successfully?</p>
+			
 			
 			<?php 
 				$sDate  = $_GET['startDate'];
@@ -63,7 +63,15 @@ Released   : 20130428
 				$conn->query($sql);
 				
 				$sql = "DELETE from customer WHERE cID = '" . $cid['cID'] . "' AND hID = '" . $hID['hID'] . "' AND rID = '$roomNo';";
-				$conn->query($sql);
+				$result = $conn->query($sql);
+				if (!$result)
+				{
+					die('Invalid query: ' . mysqli_error($conn));
+				}
+				else 
+				{
+					echo "<p>We have successfully removed your reservation.</p>";
+				}
 			?>
 			
 		</div>
