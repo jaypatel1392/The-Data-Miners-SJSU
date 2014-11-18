@@ -43,13 +43,7 @@ Released   : 20130428
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
 		<!--need to implement rate_check.php for form action-->
-		<form action="">
-			<p>
-				Enter your visit date. Note format: YYYY-MM-DD<br/>
-				<input type="text" name="startDate" placeholder="Start Date"></input>
-				<input type="text" name="endDate" placeholder="End Date"></input>
-			</p>
-			
+		<form action="rating.php">
 			<p>
 				<select name="hotel">
 					<option value='' style='display:none;'>Select Hotel</option>
@@ -59,18 +53,13 @@ Released   : 20130428
 					<option value="Hyatt">Hyatt</option>
 					<option value="Caesars Palace">Caesars Palace</option>
 				</select>
-				<select name="roomid">
-					<option value='' style='display:none;'>Room Number</option>
+				<select name="stars">
+					<option value='' style='display:none;'>How Many Stars?</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
 					<option value="4">4</option>
 					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
 				</select>
 			</p>
 			<p>Comments:<br/><textarea name="areview" rows="10" cols="85"></textarea></p>
