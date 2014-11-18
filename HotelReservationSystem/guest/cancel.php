@@ -32,7 +32,7 @@ Released   : 20130428
 	<ul>
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
-		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li class="current_page_item"><a href="cancel.php">Cancel Reservation</a></li>
 	</ul>
 </div>
 

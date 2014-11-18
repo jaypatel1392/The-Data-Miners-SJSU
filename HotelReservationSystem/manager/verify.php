@@ -18,7 +18,7 @@ include("../dbconnect.php")
 </div>
 <div id="menu" class="container">
 	<ul>
-		<li class="current_page_item"><a href="../index.html">Homepage</a></li>
+		<li><a href="../index.html">Homepage</a></li>
         <li><a href="register.php">Register</a></li>
 	</ul>
 </div>

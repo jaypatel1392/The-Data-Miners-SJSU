@@ -168,6 +168,7 @@ ul.style1 .first
 
 #menu li {
 	display: inline-block;
+	width: 205px;
 }
 
 #menu a {
@@ -190,7 +191,21 @@ ul.style1 .first
 	color: #706C53;
 }
 
-#menu .current_page_item a {
+
+/* DROP DOWN MENU */ 
+
+#menu ul ul{
+    display: none;
+}
+
+#menu ul li:hover ul{
+    display: block; /* display the dropdown */
+    position: absolute;
+}
+
+#menu ul ul li {
+	display: block;
+	background: #FFFFFA;
 }
 
 /** PAGE */

@@ -49,18 +49,24 @@ Released   : 20130428
 				$hotel  = $_GET['hotel'];
 				$roomNo = $_GET['roomNo'];
 				
-				$cid    = $conn->query("SELECT cID FROM customer 
-										WHERE rStartDate = '$sDate' AND rEndDate = '$eDate'
-										AND rID = '$roomNo';");
-				$cid = $cid->fetch_assoc();
-				$hID    = $conn->query("SELECT hID FROM hotels WHERE companyName = '$hotel'");
-				$hID = $hID->fetch_assoc();
-				$sql = "UPDATE rooms SET occupied=FALSE WHERE hID='" . $hID['hID'] . "' AND rID='$roomNo';";
-				$conn->query($sql);
+				# drop or create stored procedure
+				if(!$conn->query("DROP PROCEDURE IF EXISTS cancelReservation") || 
+					!$conn->query("CREATE PROCEDURE cancelReservation(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
+					BEGIN 
+						#remove customer's parking reservation...
+   					 	#will implement later
+    
+					    #remove customer
+					    DELETE FROM customer
+					    WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
+					    AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
+					END;"))
+				{
+					echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
+				}
 				
-				$sql = "DELETE from customer WHERE cID = '" . $cid['cID'] . "' AND hID = '" . $hID['hID'] . "' AND rID = '$roomNo';";
-				$result = $conn->query($sql);
-				if (!$result)
+				# call stored procedure to cancel
+				if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomNo')"))
 				{
 					die('Invalid query: ' . mysqli_error($conn));
 				}

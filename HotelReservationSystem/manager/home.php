@@ -32,7 +32,8 @@ include("../dbconnect.php") ?>
 </div>
 <div id="menu" class="container">
 	<ul>
-		<li class="current_page_item"><a href="../index.html">Homepage</a></li>
+		<li><a href="../index.html">Homepage</a></li>
+		<li><a href="home.php">Manager Homepage</a></li>
         <li><a href="logout.php">Logout</a></li>
 	</ul>
 </div>
