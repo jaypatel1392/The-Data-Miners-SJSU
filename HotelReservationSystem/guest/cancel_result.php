@@ -44,36 +44,77 @@ Released   : 20130428
 			
 			
 			<?php 
-				$sDate  = $_GET['startDate'];
-				$eDate  = $_GET['endDate'];
-				$hotel  = $_GET['hotel'];
-				$roomNo = $_GET['roomNo'];
+				$sDate    = $_GET['startDate'];
+				$eDate    = $_GET['endDate'];
+				$hotel    = $_GET['hotel'];
+				$roomNo   = $_GET['roomNo'];
+				$bullshit = false;
 				
-				# drop or create stored procedure
-				if(!$conn->query("DROP PROCEDURE IF EXISTS cancelReservation") || 
-					!$conn->query("CREATE PROCEDURE cancelReservation(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
-					BEGIN 
-						#remove customer's parking reservation...
-   					 	#will implement later
-    
-					    #remove customer
-					    DELETE FROM customer
-					    WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
-					    AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
-					END;"))
+				# check if input is empty or invalid data
+				if (!$roomNo || !is_numeric($roomNo))
 				{
-					echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
+					echo "<h1>WHOOOPS!</h1><p>It looks like you didn't fill out the form completely.</p>";
+					
+					#check to see if date is in format: YYYY-MM-DD
+					if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$sDate) 
+						|| !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$eDate) )
+					{
+						echo "<p>Please go back and fill out the following fields:
+						</br>Date (YYYY-MM-DD)</br>Room Number</p>";
+					} 
+					else 
+					{
+						echo "<p>Please go back and fill in your room number</p>";
+					}
+					$bullshit = true;
+				}
+				else
+				{
+					# check to see if request is REALLY valid
+					$hid = $conn->query("SELECT * from hotels WHERE companyName = '$hotel'");
+					$hid = $hid->fetch_assoc();
+
+					$sql = "SELECT * from customer WHERE rStartDate='$sDate' AND rEndDate='$eDate' AND rID='$roomNo'";
+					$result = $conn->query($sql);
+					$result = $result->fetch_assoc();
+					
+					if ($hid['hID'] != $result['hID'])
+					{
+						$bullshit = true;
+						echo "<h1>We're sorry...</h1><p>Your reservation could not be found.<br>
+						Please go back and make sure your have entered in the correct reservation information.</p>"; 
+					}
 				}
 				
-				# call stored procedure to cancel
-				if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomNo')"))
-				{
-					die('Invalid query: ' . mysqli_error($conn));
+				if (!$bullshit)
+				{			
+					# drop or create stored procedure
+					if(!$conn->query("DROP PROCEDURE IF EXISTS cancelReservation") || 
+						!$conn->query("CREATE PROCEDURE cancelReservation(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
+						BEGIN 
+							#remove customer's parking reservation...
+   						 	#will implement later
+
+						    #remove customer
+						    DELETE FROM customer
+						    WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
+						    AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
+						END;"))
+					{
+						echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
+					}
+					
+					# calling stored procedure to cancel
+					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomNo')"))
+					{
+						die('Invalid query: ' . mysqli_error($conn));
+					}
+					else 
+					{
+						echo "<h1>Hooray! Cancellation in process.</h1><p>Please save for your records.</p>";
+					}
 				}
-				else 
-				{
-					echo "<p>We have successfully removed your reservation.</p>";
-				}
+				
 			?>
 			
 		</div>

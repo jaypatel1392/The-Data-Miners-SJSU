@@ -56,7 +56,7 @@ Released   : 20130428
 			</select>
 			<p>Please enter your room number:</p>
 			<input type="text" name="roomNo"></input>
-			<br><br><br>
+			<br><br>
 		<input type="submit" value="Cancel, please!">	
 		</form>
 		</div>
