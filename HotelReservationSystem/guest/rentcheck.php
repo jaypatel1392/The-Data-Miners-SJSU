@@ -33,12 +33,13 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li class="current_page_item"><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
 
 <div id="page" class="container">
 	<div id="box1">
-		<h2 class="title"><a href="#">Welcome to JAT Hotels</a></h2>
+		<h2 class="title"><a>JAT Hotels Room Reservation</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">			
 			<?php 

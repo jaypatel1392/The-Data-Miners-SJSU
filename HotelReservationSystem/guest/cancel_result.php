@@ -33,12 +33,13 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
 
 <div id="page" class="container">
 	<div id="box1">
-		<h2 class="title"><a href="#">Welcome to JAT Hotels</a></h2>
+		<h2 class="title"><a>Cancel My Reservation, please.</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
 			
@@ -47,20 +48,26 @@ Released   : 20130428
 				$sDate    = $_GET['startDate'];
 				$eDate    = $_GET['endDate'];
 				$hotel    = $_GET['hotel'];
-				$roomNo   = $_GET['roomNo'];
+				$roomid   = $_GET['roomid'];
 				$bullshit = false;
 				
 				# check if input is empty or invalid data
-				if (!$roomNo || !is_numeric($roomNo))
+				if (!$hotel)
 				{
-					echo "<h1>WHOOOPS!</h1><p>It looks like you didn't fill out the form completely.</p>";
+					$bullshit = true;
+					echo "<h1>Uh oh,</h1>You forgot to select the hotel you wish to cancel the reservation for.
+					<p>Please head back to the previous page to select your hotel.</p>";
+				}
+				else if (!$roomid || !is_numeric($roomid))
+				{
+					echo "<h1>WHOOOPSiE!</h1><p>It looks like you didn't fill out the form completely.</p>";
 					
 					#check to see if date is in format: YYYY-MM-DD
 					if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$sDate) 
 						|| !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$eDate) )
 					{
 						echo "<p>Please go back and fill out the following fields:
-						</br>Date (YYYY-MM-DD)</br>Room Number</p>";
+						</br><li>Date (YYYY-MM-DD)</li><li>Room Number</li></p>";
 					} 
 					else 
 					{
@@ -74,7 +81,7 @@ Released   : 20130428
 					$hid = $conn->query("SELECT * from hotels WHERE companyName = '$hotel'");
 					$hid = $hid->fetch_assoc();
 
-					$sql = "SELECT * from customer WHERE rStartDate='$sDate' AND rEndDate='$eDate' AND rID='$roomNo'";
+					$sql = "SELECT * from customer WHERE rStartDate='$sDate' AND rEndDate='$eDate' AND rID='$roomid'";
 					$result = $conn->query($sql);
 					$result = $result->fetch_assoc();
 					
@@ -105,13 +112,18 @@ Released   : 20130428
 					}
 					
 					# calling stored procedure to cancel
-					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomNo')"))
+					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomid')"))
 					{
 						die('Invalid query: ' . mysqli_error($conn));
 					}
 					else 
 					{
-						echo "<h1>Hooray! Cancellation in process.</h1><p>Please save for your records.</p>";
+						echo 
+						"<h1>Hip, hip! Hooray!<br>Your cancellation is in process.</h1><br/>
+						<p>You have requested to cancel your reservation at the " . $hotel . " hotel.</p>"
+						. "<p>Date of reservation to be canceled: <br/>Start Date: " . $sDate . "<br/>End Date: " . $eDate
+						. "</p><p>Room Canceled: " . $roomid . "</p>" .
+						"<p>Please save for your records.</p>";
 					}
 				}
 				

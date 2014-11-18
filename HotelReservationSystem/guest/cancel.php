@@ -33,35 +33,49 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
 		<li class="current_page_item"><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
 
 <div id="page" class="container">
 	<div id="box1">
-		<h2 class="title"><a href="#">Welcome to JAT Hotels</a></h2>
+		<h2 class="title"><a>Cancel My Reservation, please.</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
 		<form action="cancel_result.php">
-			<p>Please enter the start date of your reservation (YYYY-MM-DD):</p>
-			<input type="text" name="startDate"></input>
-			<p>Please enter the end date of your reservation (YYYY-MM-DD):</p>
-			<input type="text" name="endDate"></input>	
-			<p>Please select your hotel:</p>
-			<select name="hotel">
-			<option value="Hilton">Hilton</option>
-			<option value="Marriott">Marriott</option>
-			<option value="Embassy Suites">Embassy Suites</option>
-			<option value="Hyatt">Hyatt</option>
-			<option value="Caesars Palace">Caesars Palace</option>
-			</select>
-			<p>Please enter your room number:</p>
-			<input type="text" name="roomNo"></input>
-			<br><br>
-		<input type="submit" value="Cancel, please!">	
+			<br/>Please select your hotel and room number:
+			<p>
+				<select name="hotel">
+					<option value='' style='display:none;'>Select Hotel</option>
+					<option value="Hilton">Hilton</option>
+					<option value="Marriott">Marriott</option>
+					<option value="Embassy Suites">Embassy Suites</option>
+					<option value="Hyatt">Hyatt</option>
+					<option value="Caesars Palace">Caesars Palace</option>
+				</select>
+				<select name="roomid">
+					<option value='' style='display:none;'>Room Number</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+				</select>
+			</p>
+			<p>
+				Please enter your reservation date (YYYY-MM-DD):<br/>
+				<input type="text" name="startDate" placeholder="Start Date"></input>
+				<input type="text" name="endDate" placeholder="End Date"></input>
+			</p>
+		<input type="submit" value="Submit Request">	
 		</form>
 		</div>
 	</div>
-	
 </div>
 
 <div id="footer" class="container">

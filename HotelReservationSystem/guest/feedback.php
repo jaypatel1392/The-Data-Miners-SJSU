@@ -31,36 +31,55 @@ Released   : 20130428
 <div id="menu" class="container">
 	<ul>
 		<li><a href="../index.html">Homepage</a></li>
-       	<li class="current_page_item"><a href="rent.php">Reserve a Room</a></li>
+       	<li><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
-		<li><a href="feedback.php">Leave Feedback</a></li>
+		<li class="current_page_item"><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
 
 <div id="page" class="container">
 	<div id="box1">
-		<h2 class="title"><a>JAT Hotels Room Reservation</a></h2>
+		<h2 class="title"><a>JAT Hotel Reservation Feedback</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
-		<form action="rentcheck.php">
-			<p>Please enter the start date of your reservation (YYYY-MM-DD):</p>
-			<input type="text" name="startDate"></input>
-			<p>Please enter the end date of your reservation (YYYY-MM-DD):</p>
-			<input type="text" name="endDate"></input>	
-			<p>Please select from one of our many locations:</p>
-			<select name="location">
-			<option value="San Francisco">San Francisco</option>
-			<option value="New York">New York</option>
-			<option value="Boston">Boston</option>
-			<option value="Chicago">Chicago</option>
-			<option value="Las Vegas">Las Vegas</option>
-			</select><br><br><br>
-		<input type="submit" value="Check for available rooms!">	
+		<!--need to implement rate_check.php for form action-->
+		<form action="">
+			<p>
+				Enter your visit date. Note format: YYYY-MM-DD<br/>
+				<input type="text" name="startDate" placeholder="Start Date"></input>
+				<input type="text" name="endDate" placeholder="End Date"></input>
+			</p>
+			
+			<p>
+				<select name="hotel">
+					<option value='' style='display:none;'>Select Hotel</option>
+					<option value="Hilton">Hilton</option>
+					<option value="Marriott">Marriott</option>
+					<option value="Embassy Suites">Embassy Suites</option>
+					<option value="Hyatt">Hyatt</option>
+					<option value="Caesars Palace">Caesars Palace</option>
+				</select>
+				<select name="roomid">
+					<option value='' style='display:none;'>Room Number</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+				</select>
+			</p>
+			<p>Comments:<br/><textarea name="areview" rows="10" cols="85"></textarea></p>
+			<input type="submit" value="Submit Feedback">
 		</form>
 		</div>
 	</div>
-	
 </div>
+
 <div id="footer" class="container">
 	<p>&copy; JAT RESRVATION SYSTEM. All rights reserved. Design by JAT<p>
 </div>
