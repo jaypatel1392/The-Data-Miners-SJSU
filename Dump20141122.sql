@@ -227,4 +227,28 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+--
+-- Stored proc for rating hotel
+--
+DROP PROCEDURE IF EXISTS `rateHotel`;
+DELIMITER \\
+CREATE PROCEDURE `rateHotel`(IN hid INT, IN numstars INT, IN review VARCHAR(500) CHARSET utf8)
+BEGIN 
+	INSERT INTO rating (hID, rating, review)
+	VALUES(hid, numstars, review);
+END \\
+DELIMITER ;
+
+--
+-- Stored proc for canceling reservation
+--
+DROP PROCEDURE IF EXISTS `cancelReservation`;
+DELIMITER \\
+CREATE PROCEDURE `cancelReservation`(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
+BEGIN 
+	DELETE FROM customer
+	WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
+	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
+END \\
+DELIMITER ;
 -- Dump completed on 2014-11-22 13:36:32
