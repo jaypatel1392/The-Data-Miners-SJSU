@@ -33,6 +33,7 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
@@ -48,8 +49,9 @@ Released   : 20130428
 				$stars    = $_GET['stars'];
 				$areview  = $_GET['areview'];
 				
-				$hid      = $conn->query("SELECT * from hotels WHERE companyName = '$hotel'");
+				$hid      = $conn->query("SELECT hID from hotels WHERE companyName = '$hotel'");
 				$hid      = $hid->fetch_assoc();
+				$hotelID  = $hid['hID'];
 				$bullshit = false;
 				
 				# check if input is empty or invalid data
@@ -76,7 +78,7 @@ Released   : 20130428
 				}
 
 				if (!$bullshit)
-				{			
+				{
 					# drop or create stored procedure
 					if(!$conn->query("DROP PROCEDURE IF EXISTS rateHotel") || 
 						!$conn->query("CREATE PROCEDURE rateHotel(IN hid INT, IN numstars INT, IN review VARCHAR(500) CHARSET utf8)
@@ -89,7 +91,7 @@ Released   : 20130428
 					}
 					
 					# calling stored procedure to cancel
-					if (!$conn->query("CALL rateHotel('".hid['hID']."', '$stars', '$areview')"))
+					if (!$conn->query("CALL rateHotel('$hotelID', '$stars', '$areview')"))
 					{
 						die('Invalid query: ' . mysqli_error($conn));
 					}

@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `jat_reservation`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
@@ -171,7 +171,7 @@ DROP TABLE IF EXISTS `rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
-  `ratingID` int(11) NOT NULL,
+  `ratingID` int(11) NOT NULL AUTO_INCREMENT,
   `hID` int(11) NOT NULL,
   `rating` int(11) NOT NULL DEFAULT '0',
   `review` varchar(500) DEFAULT NULL,
