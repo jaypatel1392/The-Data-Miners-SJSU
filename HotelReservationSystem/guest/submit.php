@@ -66,7 +66,7 @@ Released   : 20130428
 					$HID = $HID['hID'];
 					$sql = "SELECT count(*) AS number FROM customer";
 					$result = $conn->query($sql);
-					$counter = $result->fetch_assoc();
+					$counter = $result->fetch_assoc(); 
 					$counter = $counter['number'];
 					$query =  "INSERT INTO `customer` (`cID`, `hID`, `rID`, `name`, `address`, `ccNo`, `smoker`, `rStartDate`, `rEndDate`, `discount`, `updatedAt`)  VALUES( '$counter', '$HID', '$room', '$name', '$address', '$credit', '$smoke', '$sDate', '$eDate', '$discount', CURRENT_TIMESTAMP);"; 
 					$result = mysqli_query($conn, $query);

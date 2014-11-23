@@ -120,7 +120,7 @@ Released   : 20130428
 				<select name='discount'>
 				<option value='0'>0%</option>
 				<option value='5'>5%</option>
-				<option value='10'>10%</option>
+				<option value='10'>10%</option> 
 				<option value='15'>15%</option>
 				</select><br><br>
 				<p>Are you a smoker?</p>

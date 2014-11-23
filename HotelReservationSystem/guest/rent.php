@@ -53,7 +53,7 @@ Released   : 20130428
 			<option value="New York">New York</option>
 			<option value="Boston">Boston</option>
 			<option value="Chicago">Chicago</option>
-			<option value="Las Vegas">Las Vegas</option>
+			<option value="Las Vegas">Las Vegas</option> 
 			</select><br><br><br>
 		<input type="submit" value="Check for available rooms!">	
 		</form>
