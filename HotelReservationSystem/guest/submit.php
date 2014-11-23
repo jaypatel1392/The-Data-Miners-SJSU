@@ -68,7 +68,7 @@ Released   : 20130428
 					$result = $conn->query($sql);
 					$counter = $result->fetch_assoc();
 					$counter = $counter['number'];
-					$query =  "INSERT INTO `JAT_RESERVATION`.`customer` (`cID`, `hID`, `rID`, `name`, `address`, `ccNo`, `smoker`, `rStartDate`, `rEndDate`, `discount`, `updatedAt`)  VALUES( '$counter', '$HID', '$room', '$name', '$address', '$credit', '$smoke', '$sDate', '$eDate', '$discount', CURRENT_TIMESTAMP);"; 
+					$query =  "INSERT INTO `customer` (`cID`, `hID`, `rID`, `name`, `address`, `ccNo`, `smoker`, `rStartDate`, `rEndDate`, `discount`, `updatedAt`)  VALUES( '$counter', '$HID', '$room', '$name', '$address', '$credit', '$smoke', '$sDate', '$eDate', '$discount', CURRENT_TIMESTAMP);"; 
 					$result = mysqli_query($conn, $query);
 					if (!$result)
 					{
