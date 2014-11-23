@@ -117,8 +117,13 @@ Released   : 20130428
 							<p>Please enter your credit card number:</p>
 				<input type='text' name='CC'></input>
 							<p>Please enter your discount amount:</p>
-				<input type='text' name='discount'></input><br><br>
-				Are you a smoker?
+				<select name='discount'>
+				<option value='0'>0%</option>
+				<option value='5'>5%</option>
+				<option value='10'>10%</option>
+				<option value='15'>15%</option>
+				</select><br><br>
+				<p>Are you a smoker?</p>
 							<input type='radio' name='smoke' value='true'>Smoker
 							<input type='radio' name='smoke' value='false'>Non Smoker
 					<input type='hidden' name='sDate' value='$sDate' />
