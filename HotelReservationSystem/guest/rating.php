@@ -79,6 +79,7 @@ Released   : 20130428
 
 				if (!$bullshit)
 				{
+					/*
 					# drop or create stored procedure
 					if(!$conn->query("DROP PROCEDURE IF EXISTS rateHotel") || 
 						!$conn->query("CREATE PROCEDURE rateHotel(IN hid INT, IN numstars INT, IN review VARCHAR(500) CHARSET utf8)
@@ -89,7 +90,7 @@ Released   : 20130428
 					{
 						echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
 					}
-					
+					*/
 					# calling stored procedure to cancel
 					if (!$conn->query("CALL rateHotel('$hotelID', '$stars', '$areview')"))
 					{
