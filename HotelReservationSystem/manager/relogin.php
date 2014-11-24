@@ -37,7 +37,7 @@ Released   : 20130428
 </div>
 
 <div id="managerpage" class="container">
-	<form action="change this" method="post"> <!--SEND TO Verify.php afterwards -->
+	<form action="confirm.php" method="post"> <!--SEND TO Verify.php afterwards -->
     
     	<h2 align="center">Please provide right information! Try again...</h2>
         <table align="center">

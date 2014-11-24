@@ -23,11 +23,15 @@
 				$res2 = mysqli_query($conn, $h);
 				
 				if($res && $res2) {
-					if($r = mysqli_fetch_array($res) && $a = mysqli_fetch_array($res2)) {
+					if($r = mysqli_fetch_array($res)) {
 						$_SESSION['managername'] = $r["name"];
+					}
+					
+					if($a = mysqli_fetch_array($res2)) {
 						$_SESSION['hotelname'] = $a["companyName"];
-						header('location: home.php');
-					} 
+					}
+					
+					header('location: home.php'); 
 				} else {
 					header('location: relogin.php');
 				}
