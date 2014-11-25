@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jat_reservation`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
@@ -103,7 +103,7 @@ CREATE TABLE `hotels` (
 
 LOCK TABLES `hotels` WRITE;
 /*!40000 ALTER TABLE `hotels` DISABLE KEYS */;
-INSERT INTO `hotels` VALUES (1,'Hilton','San Francisco',30),(2,'Marriott','New York',50),(3,'Embassy Suites','Boston',35),(4,'Hyatt ','Chicago',20),(5,'Caesars Palace','Las Vegas',60);
+INSERT INTO `hotels` VALUES (1,'Hilton','San Francisco',30),(2,'Marriott','New York',50),(3,'Embassy Suites','Boston',35),(4,'Hyatt','Chicago',20),(5,'Caesars Palace','Las Vegas',60);
 /*!40000 ALTER TABLE `hotels` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,4 +251,15 @@ BEGIN
 	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
 END \\
 DELIMITER ;
+
+--
+-- Default view for ratings
+--
+DROP VIEW IF EXISTS `viewratings`;
+CREATE VIEW `viewratings` AS
+SELECT companyName, rating, review 
+FROM `rating` LEFT JOIN `hotels`
+ON `rating`.hID=`hotels`.hID
+ORDER BY companyName;
+
 -- Dump completed on 2014-11-22 13:36:32
