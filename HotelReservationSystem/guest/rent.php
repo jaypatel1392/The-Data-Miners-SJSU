@@ -33,6 +33,7 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li class="current_page_item"><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
@@ -53,7 +54,7 @@ Released   : 20130428
 			<option value="New York">New York</option>
 			<option value="Boston">Boston</option>
 			<option value="Chicago">Chicago</option>
-			<option value="Las Vegas">Las Vegas</option> 
+			<option value="Las Vegas">Las Vegas</option>
 			</select><br><br><br>
 		<input type="submit" value="Check for available rooms!">	
 		</form>
