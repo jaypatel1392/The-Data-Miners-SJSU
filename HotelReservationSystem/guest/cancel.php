@@ -33,6 +33,7 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
 		<li class="current_page_item"><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
@@ -70,6 +71,7 @@ Released   : 20130428
 			<p>
 				Please enter your reservation date (YYYY-MM-DD):<br/>
 				<input type="text" name="startDate" placeholder="Start Date"></input>
+				to
 				<input type="text" name="endDate" placeholder="End Date"></input>
 			</p>
 		<input type="submit" value="Submit Request">	
