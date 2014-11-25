@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `jat_reservation` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `jat_reservation`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
@@ -103,7 +103,7 @@ CREATE TABLE `hotels` (
 
 LOCK TABLES `hotels` WRITE;
 /*!40000 ALTER TABLE `hotels` DISABLE KEYS */;
-INSERT INTO `hotels` VALUES (1,'Hilton','San Francisco',30),(2,'Marriott','New York',50),(3,'Embassy Suites','Boston',35),(4,'Hyatt ','Chicago',20),(5,'Caesars Palace','Las Vegas',60);
+INSERT INTO `hotels` VALUES (1,'Hilton','San Francisco',30),(2,'Marriott','New York',50),(3,'Embassy Suites','Boston',35),(4,'Hyatt','Chicago',20),(5,'Caesars Palace','Las Vegas',60);
 /*!40000 ALTER TABLE `hotels` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,7 +171,7 @@ DROP TABLE IF EXISTS `rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
-  `ratingID` int(11) NOT NULL,
+  `ratingID` int(11) NOT NULL AUTO_INCREMENT,
   `hID` int(11) NOT NULL,
   `rating` int(11) NOT NULL DEFAULT '0',
   `review` varchar(500) DEFAULT NULL,
@@ -226,5 +226,40 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+--
+-- Stored proc for rating hotel
+--
+DROP PROCEDURE IF EXISTS `rateHotel`;
+DELIMITER \\
+CREATE PROCEDURE `rateHotel`(IN hid INT, IN numstars INT, IN review VARCHAR(500) CHARSET utf8)
+BEGIN 
+	INSERT INTO rating (hID, rating, review)
+	VALUES(hid, numstars, review);
+END \\
+DELIMITER ;
+
+--
+-- Stored proc for canceling reservation
+--
+DROP PROCEDURE IF EXISTS `cancelReservation`;
+DELIMITER \\
+CREATE PROCEDURE `cancelReservation`(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
+BEGIN 
+	DELETE FROM customer
+	WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
+	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
+END \\
+DELIMITER ;
+
+--
+-- Default view for ratings
+--
+DROP VIEW IF EXISTS `viewratings`;
+CREATE VIEW `viewratings` AS
+SELECT companyName, rating, review 
+FROM `rating` LEFT JOIN `hotels`
+ON `rating`.hID=`hotels`.hID
+ORDER BY companyName;
 
 -- Dump completed on 2014-11-22 13:36:32

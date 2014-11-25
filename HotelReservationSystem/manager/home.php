@@ -41,7 +41,15 @@ include("../dbconnect.php") ?>
 <div class="container">
 	<?php
 		$hotelname = $_SESSION['hotelname']; 
-		print "<h3 align='center'>$hotelname</h3>"; 
+		print "<h3 align='center'>$hotelname Manager Services\n</h3>"; 
+		
+		print "<table>
+			   <tr>
+			   	<td>
+					<button onclick='window.location.href = \"charge.php\" '  class=\"btn\" >Charge Customer</button>
+			   	</td>
+			   </tr>
+			   </table>";
 	?>
 </div>
 

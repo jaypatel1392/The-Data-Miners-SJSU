@@ -33,6 +33,7 @@ Released   : 20130428
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
@@ -94,7 +95,8 @@ Released   : 20130428
 				}
 				
 				if (!$bullshit)
-				{			
+				{
+					/*
 					# drop or create stored procedure
 					if(!$conn->query("DROP PROCEDURE IF EXISTS cancelReservation") || 
 						!$conn->query("CREATE PROCEDURE cancelReservation(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
@@ -110,11 +112,11 @@ Released   : 20130428
 					{
 						echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
 					}
-					
+					*/
 					# calling stored procedure to cancel
 					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomid')"))
 					{
-						die('Invalid query: ' . mysqli_error($conn));
+						die('Sorry, something went awry... ' . mysqli_error($conn));
 					}
 					else 
 					{

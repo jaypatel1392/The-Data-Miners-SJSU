@@ -32,51 +32,57 @@ Released   : 20130428
 	<ul>
 		<li><a href="../index.html">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
-		<li class="current_page_item"><a href="cancel.php">Cancel Reservation</a></li>
-		<li><a href="rating_view.php">Hotel Ratings</a></li>
+		<li><a href="cancel.php">Cancel Reservation</a></li>
+		<li class="current_page_item"><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
 	</ul>
 </div>
 
 <div id="page" class="container">
 	<div id="box1">
-		<h2 class="title"><a>Cancel My Reservation, please.</a></h2>
+		<h2 class="title"><a>Hotel Ratings</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
-		<form action="cancel_result.php">
-			<br/>Please select your hotel and room number:
-			<p>
-				<select name="hotel">
-					<option value='' style='display:none;'>Select Hotel</option>
-					<option value="Hilton">Hilton</option>
-					<option value="Marriott">Marriott</option>
-					<option value="Embassy Suites">Embassy Suites</option>
-					<option value="Hyatt">Hyatt</option>
-					<option value="Caesars Palace">Caesars Palace</option>
-				</select>
-				<select name="roomid">
-					<option value='' style='display:none;'>Room Number</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-				</select>
-			</p>
-			<p>
-				Please enter your reservation date (YYYY-MM-DD):<br/>
-				<input type="text" name="startDate" placeholder="Start Date"></input>
-				to
-				<input type="text" name="endDate" placeholder="End Date"></input>
-			</p>
-		<input type="submit" value="Submit Request">	
-		</form>
+			<?php
+				$query  = "SELECT * FROM viewratings";
+				$result = $conn->query($query);
+				while ($row = $result->fetch_assoc())
+				{
+					echo $row['companyName'] . " hotel----" . $row['rating'] . " stars----" . $row['review'] . "<br/>";
+				}
+			?>
 		</div>
+	</div>
+	<div id="box2">
+		<h2><a>Average Ratings</a></h2>
+		<?php
+			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
+			$avg_rating = "SELECT avg(rating) as avg FROM viewratings WHERE companyName='";
+			while ($row = $hotels->fetch_assoc())
+			{
+				$query  = $avg_rating . $row['companyName'] . "'";
+				$result = $conn->query($query);
+				foreach ($result as $res)
+				{
+					echo "<b>" . $row['companyName'] . "</b>: " . $res['avg'] . "<br><br>";
+				}
+			}
+		?>
+	</div>
+	<div id="box3">
+		<h2><a>Friendly Filter</a></h2>
+		<form method="post" action="rating_viewfilter.php">
+		<?php
+			$hotels = $conn->query("SELECT * FROM hotels ORDER BY companyName");
+			while ($row = $hotels->fetch_assoc())
+			{
+				$h_name = $row['companyName'];
+				echo "<input type=\"checkbox\" name=\"" . urlencode($h_name) . "\" value='" . $h_name . "'>" . $h_name . "</input><br>";
+			}
+		?>
+		<br>
+		<input type='submit' value='Filter'></input>
+		</form>
 	</div>
 </div>
 
