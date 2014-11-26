@@ -26,7 +26,7 @@ Released   : 20130428
 </head>
 <body>
 <div id="logo" class="container">
-	<h1><a href="../index.html">JAT HOTEL RESERVATION</a></h1>
+	<h1><a href="../index.php">JAT HOTEL RESERVATION</a></h1>
 </div>
 <div id="menu" class="container">
 	<ul>

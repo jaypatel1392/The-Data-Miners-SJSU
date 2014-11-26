@@ -26,11 +26,11 @@ Released   : 20130428
 </head>
 <body>
 <div id="logo" class="container">
-	<h1><a href="../index.html">JAT HOTEL RESERVATION</a></h1>
+	<h1><a href="../index.php">JAT HOTEL RESERVATION</a></h1>
 </div>
 <div id="menu" class="container">
 	<ul>
-		<li><a href="../index.html">Homepage</a></li>
+		<li><a href="../index.php">Homepage</a></li>
         <li class="current_page_item"><a href="Login.php">Login</a></li>
         <li><a href="register.php">Register</a></li>
 	</ul>
