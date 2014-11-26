@@ -14,8 +14,8 @@
 				$hid = $hID;
 				
 				$_SESSION['username'] = $username;
-				$_SESSION['hid'] = $hid;
-				$_SESSION['eid'] = $eid;
+				$_SESSION['hid'] = $hID;
+				$_SESSION['eid'] = $eID;
 				
 				$q = "SELECT name FROM employee where eID = $eid and hID = $hid";
 				$h = "SELECT companyName FROM hotels where hID = $hid";

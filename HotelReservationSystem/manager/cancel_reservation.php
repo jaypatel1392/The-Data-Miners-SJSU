@@ -1,5 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
 
+Name       : Doubtless 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130428
+
+-->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,22 +42,21 @@ include("../dbconnect.php") ?>
 	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post"> <!--SEND TO charge.php afterwards -->
 	<?php
 		$hotelname = $_SESSION['hotelname'];
-		$hID = $_SESSION['hid']; 
+		$hID = $_SESSION["hid"]; 
 		$managername = $_SESSION['managername'];
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
 		print "<h3 align='center'>Welcome $managername</h3>";
-		print "\n\n";
-			
+					
 		$sql = "SELECT * FROM customer where hID = $hID";
 		$result = mysqli_query($conn, $sql);
 		      
         if($result) {
-			print "<p><label class=\"formtext\">Charge Customer: </label>";
+			print "<p><label class=\"formtext\">Cancle Customer's Reservation: </label>";
 			print "<select name=\"customer\" class=\"inputs\">";   
 			
 			$cid = -1;
-            while(list($cID, $hID, $rID, $name, $address, $ccNo, $somker, $rStartDate, $rEndDate, $discount) = mysqli_fetch_array($result)) {
-				$info = $name . "," . $cID . "," . $hID;
+            while(list($cID, $hid, $rID, $name, $address, $ccNo, $somker, $rStartDate, $rEndDate, $discount) = mysqli_fetch_array($result)) {
+				$info = $rStartDate . "," . $rEndDate . "," . $rID;
 				print "<option value='$info'>$name staying at Room #$rID</option>";
 			}
 			print "</select></p>";
@@ -60,30 +69,28 @@ include("../dbconnect.php") ?>
 			$values = $_POST['customer'];
 			$in = explode(",", $values);
 			
-			$name = $in[0];
-			$cid = $in[1];
-			$hID = $in[2];
+			$rStartDate = $in[0];
+			$rEndDate = $in[1];
+			$rID = $in[2];
 			
 			$conn = new PDO("mysql:=host=$servername;dbname=$dbname", $username, $password);
-			$stmt = $conn->prepare("CALL ComputeTotalPrice(:customerId, :hotelId, :customerName, @price)");
+			$stmt = $conn->prepare("CALL cancelReservation(:sDate, :eDate, :hotel, :roomID)");
 			
-			$stmt->bindParam(':customerId', $cid, PDO::PARAM_INT);
-			$stmt->bindParam(':hotelId', $hID, PDO::PARAM_INT);
-			$stmt->bindParam(':customerName', $name, PDO::PARAM_STR); 
+			$stmt->bindParam(':sDate', $rStartDate, PDO::PARAM_STR);
+			$stmt->bindParam(':eDate', $rEndDate, PDO::PARAM_STR);
+			$stmt->bindParam(':hotel', $hotelname, PDO::PARAM_STR); 
+			$stmt->bindParam(':roomID', $rID, PDO::PARAM_INT); 
+
 
 			// call the stored procedure
-			$stmt->execute();
-			$stmt->closeCursor();
-			
-			$r = $conn->query("SELECT @price AS price")->fetch(PDO::FETCH_ASSOC);
-			if ($r) {
-				$finalprice = number_format((float)$r['price'], 2, '.', '');
-				
+			if ($stmt->execute()) {				
 				print "<span align='center'>";
-				print "<p><label class=\"formtext\">Customer $name has been charged \$$finalprice for their stay!</label></p>";
+				print "<p><label class=\"formtext\">Successfully cancelled $name's reservation.</label></p>";
 				print "<p align='center'><button onclick='window.location.href = \"home.php\" ' class=\"btn\" >Back to Home!</button></p>";
 				print "</span>";
-			}	
+			}
+			
+			$stmt->closeCursor();
 		}
 	?>
 </div>
