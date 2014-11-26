@@ -131,6 +131,7 @@ CREATE TABLE `managerlogin` (
 
 LOCK TABLES `managerlogin` WRITE;
 /*!40000 ALTER TABLE `managerlogin` DISABLE KEYS */;
+INSERT INTO `managerlogin` VALUES ('john','secret',2,1);
 /*!40000 ALTER TABLE `managerlogin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +251,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation`(IN sDate DATE, I
 BEGIN 
 	DELETE FROM customer
 	WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
-	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
+	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -327,4 +328,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-25 16:38:08
+-- Dump completed on 2014-11-25 20:35:53
