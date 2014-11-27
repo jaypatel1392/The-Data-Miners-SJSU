@@ -44,7 +44,8 @@ Released   : 20130428
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
 			
-			<?php 
+			<?php
+				// grabbing vars
 				$hotel    = $_GET['hotel'];
 				$stars    = $_GET['stars'];
 				$areview  = $_GET['areview'];
@@ -54,7 +55,7 @@ Released   : 20130428
 				$hotelID  = $hid['hID'];
 				$bullshit = false;
 				
-				# check if input is empty or invalid data
+				// check if input is empty or invalid data
 				if (!$hotel && !$stars)
 				{
 					$bullshit = true;
@@ -79,19 +80,7 @@ Released   : 20130428
 
 				if (!$bullshit)
 				{
-					/*
-					# drop or create stored procedure
-					if(!$conn->query("DROP PROCEDURE IF EXISTS rateHotel") || 
-						!$conn->query("CREATE PROCEDURE rateHotel(IN hid INT, IN numstars INT, IN review VARCHAR(500) CHARSET utf8)
-						BEGIN 
-						    INSERT INTO rating (hID, rating, review)
-						    VALUES(hid, numstars, review);
-						END;"))
-					{
-						echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
-					}
-					*/
-					# calling stored procedure to cancel
+					// calling stored procedure to cancel
 					if (!$conn->query("CALL rateHotel('$hotelID', '$stars', '$areview')"))
 					{
 						die('Invalid query: ' . mysqli_error($conn));

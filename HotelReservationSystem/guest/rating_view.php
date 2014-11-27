@@ -46,9 +46,37 @@ Released   : 20130428
 			<?php
 				$query  = "SELECT * FROM viewratings";
 				$result = $conn->query($query);
-				while ($row = $result->fetch_assoc())
-				{
-					echo $row['companyName'] . " hotel----" . $row['rating'] . " stars----" . $row['review'] . "<br/>";
+				if (mysqli_num_rows($result) > 0) {	
+					$prev = null;                         // keeps track if Hotel name needs to be echo'd
+					$rating_echo = false;                 // keeps track if the rating has been echo'd or not
+					while ($row = $result->fetch_assoc()) // loop through viewratings view
+					{
+						// first time entering loop OR looking at reviews for new hotel
+						if (is_null($prev) || $prev['companyName'] != $row['companyName']) {
+							echo "<h3>" . $row['companyName'] . " hotel</h3>";
+						} else {
+							if (empty($row['review'])) {
+								echo $row['rating'] . " stars: no comment.<br/><br/>";
+							} else {
+								echo $row['rating'] . " stars: " . $row['review'] . "<br/><br/>";
+							}
+							$rating_echo = true;
+						}
+						// ratings have not been echo'd, echo them						
+						if (!$rating_echo) { 
+							if (empty($row['review'])) {
+								echo $row['rating'] . " stars: no comment.<br/><br/>";
+							} else {
+								echo $row['rating'] . " stars: " . $row['review'] . "<br/><br/>";
+							}
+						}						
+						$prev = $row;         // 'incrementing' here
+						$rating_echo = false; // set rating_echo back to false for next iteration
+					}
+				} else {
+					echo "<b>Look what we have here... Or lack thereof.</b>
+					<br/><br/>We currently do not have any reviews to dispaly.
+					<br/>It looks like you will be the first to leave a review.";
 				}
 			?>
 		</div>
@@ -57,14 +85,20 @@ Released   : 20130428
 		<h2><a>Average Ratings</a></h2>
 		<?php
 			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
-			$avg_rating = "SELECT avg(rating) as avg FROM viewratings WHERE companyName='";
+			$avg_rating = "SELECT avg(rating) as avg, companyName FROM viewratings WHERE companyName='";
 			while ($row = $hotels->fetch_assoc())
 			{
-				$query  = $avg_rating . $row['companyName'] . "'";
-				$result = $conn->query($query);
-				foreach ($result as $res)
-				{
-					echo "<b>" . $row['companyName'] . "</b>: " . $res['avg'] . "<br><br>";
+				$query  = $avg_rating . $row['companyName'] . "'";        // sets up query
+				$result = $conn->query($query);                           // gets average rating for particular hotel
+				if (mysqli_num_rows($result) > 0) {                       // oh, there's something for this hotel
+					foreach ($result as $res)
+					{
+						if ($row['companyName'] == $res['companyName']) { // double checking
+							echo "<b>" . $row['companyName'] . "</b>: " . $res['avg'] . "<br><br>";
+						}
+					}
+				} else {
+					echo "<b>Womp, womp, womp.</b><br/>No reviews to display";
 				}
 			}
 		?>
@@ -77,6 +111,7 @@ Released   : 20130428
 			while ($row = $hotels->fetch_assoc())
 			{
 				$h_name = $row['companyName'];
+				// make a checklist for filter with the hotel names
 				echo "<input type=\"checkbox\" name=\"" . urlencode($h_name) . "\" value='" . $h_name . "'>" . $h_name . "</input><br>";
 			}
 		?>

@@ -43,16 +43,15 @@ Released   : 20130428
 		<h2 class="title"><a>Cancel My Reservation, please.</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
-			
-			
 			<?php 
+				// grabbing vars
 				$sDate    = $_GET['startDate'];
 				$eDate    = $_GET['endDate'];
 				$hotel    = $_GET['hotel'];
 				$roomid   = $_GET['roomid'];
 				$bullshit = false;
 				
-				# check if input is empty or invalid data
+				// check if input is empty or invalid data
 				if (!$hotel)
 				{
 					$bullshit = true;
@@ -96,24 +95,7 @@ Released   : 20130428
 				
 				if (!$bullshit)
 				{
-					/*
-					# drop or create stored procedure
-					if(!$conn->query("DROP PROCEDURE IF EXISTS cancelReservation") || 
-						!$conn->query("CREATE PROCEDURE cancelReservation(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
-						BEGIN 
-							#remove customer's parking reservation...
-   						 	#will implement later
-
-						    #remove customer
-						    DELETE FROM customer
-						    WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
-						    AND hID=(SELECT hID FROM hotels WHERE companyName=hotel group by hID);
-						END;"))
-					{
-						echo "Stored procedure creation failed: (" . mysqli_error($conn) . ")";
-					}
-					*/
-					# calling stored procedure to cancel
+					// calling stored procedure to cancel
 					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomid')"))
 					{
 						die('Sorry, something went awry... ' . mysqli_error($conn));
@@ -128,9 +110,7 @@ Released   : 20130428
 						"<p>Please save for your records.</p>";
 					}
 				}
-				
 			?>
-			
 		</div>
 	</div>
 	
