@@ -90,12 +90,9 @@ Released   : 20130428
 						echo "Thank you for your feedback.";
 					}
 				}
-				
 			?>
-			
 		</div>
 	</div>
-	
 </div>
 
 <div id="footer" class="container">

@@ -68,6 +68,37 @@ Released   : 20130428
 		</form>
 		</div>
 	</div>
+	<div id="box2">
+		<img src="../images/typetypetype.gif" alt="Typing Cat" style="width:120px;height:120px">
+		<img src="../images/Caesarspalace.jpg" alt="Ceasars Palace" style="width:120px;height:120px">
+		<img src="../images/EmbassySuites.jpg" alt="Embassy Suites" style="width:120px;height:120px">
+		<img src="../images/Hilton.jpg" alt="Hilton" style="width:120px;height:120px">
+		<img src="../images/Hyatt.jpg" alt="Hyatt" style="width:120px;height:100px">
+		<img src="../images/Marriott.jpg" alt="Marriott" style="width:120px;height:120px">
+	</div>
+	<div id="box3">
+		<h2><a>Other Ratings</a></h2>
+		<?php
+			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
+			$avg_rating = "SELECT avg(rating) as avg, companyName, review FROM viewratings WHERE companyName='";
+			while ($row = $hotels->fetch_assoc())
+			{
+				$query  = $avg_rating . $row['companyName'] . "'";        // sets up query
+				$result = $conn->query($query);                           // gets average rating for particular hotel
+				if (mysqli_num_rows($result) > 0) {                       // oh, there's something for this hotel
+					foreach ($result as $res)
+					{
+						if ($row['companyName'] == $res['companyName']) { // double checking
+							echo "<b>" . $row['companyName'] . "</b>: " . $res['avg'];
+							echo "<br/>" . $res['review'] . "<br/><br/>";
+						}
+					}
+				} else {
+					echo "<b>Womp, womp, womp.</b><br/>No reviews to display";
+				}
+			}
+		?>
+	</div>
 </div>
 
 <div id="footer" class="container">

@@ -122,7 +122,7 @@ Released   : 20130428
 			?>
 		</div>
 	</div>
-		<div id="box2">
+	<div id="box2">
 		<h2><a>Average Ratings</a></h2>
 		<?php
 			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
