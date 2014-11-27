@@ -77,7 +77,7 @@ Released   : 20130428
 				}
 				else
 				{
-					# check to see if request is REALLY valid
+					//check to see if request is REALLY valid
 					$hid = $conn->query("SELECT * from hotels WHERE companyName = '$hotel'");
 					$hid = $hid->fetch_assoc();
 

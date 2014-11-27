@@ -45,7 +45,7 @@ Released   : 20130428
 		<div class="entry">
 		<form action="cancel_result.php">
 			<br/>Please select your hotel and room number:
-			<--Drop down menu for hotel and room id -->
+			<!--Drop down menu for hotel and room id -->
 			<p>
 				<select name="hotel">
 					<option value='' style='display:none;'>Select Hotel</option>
@@ -69,7 +69,7 @@ Released   : 20130428
 					<option value="10">10</option>
 				</select>
 			</p>
-			<-- text box for date range entry -->
+			<!-- text box for date range entry -->
 			<p>
 				Please enter your reservation date (YYYY-MM-DD):<br/>
 				<input type="text" name="startDate" placeholder="Start Date"></input>
