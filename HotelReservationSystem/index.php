@@ -34,6 +34,7 @@ Released   : 20130428
 			<ul>
 				<li><a href="guest/rent.php">Rent a Room</a></li>
 				<li><a href="guest/cancel.php">Cancel Reservation</a></li>
+				<li><a href="guest/rating_view.php">Hotel Ratings</a></li>
 				<li><a href="guest/feedback.php">Leave Feedback</a></li>
 			</ul>
 		</li>
