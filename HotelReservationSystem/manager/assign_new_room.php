@@ -48,7 +48,7 @@ include("../dbconnect.php") ?>
 			$cid = -1;
             while(list($cID, $hid, $rID, $name, $address, $ccNo, $somker, $rStartDate, $rEndDate, $discount) = mysqli_fetch_array($result)) {
 				$list = array("$cID", "$rID", "$name", "$address", "$ccNo", "$smoker", "$rStartDate", "$rEndDate", "$discount");
-				$info = implode(",", $list);
+				$info = implode("//", $list);
 				print "<option value='$info'> $name staying at Room #$rID</option>";
 			}
 			print "</select></p>";
@@ -57,9 +57,9 @@ include("../dbconnect.php") ?>
 			
 			print "<p>";
 			print "<label class=\"formtext\">Reassign a new room to: </label>";
-			print "<input type='radio' name='change_value' value='smoker'>";
+			print "<input type='radio' name='change_value' value='true'>";
 			print "<label class=\"formtext\">Smoking Room</label>";
-			print "<input type='radio' name='change_value' value='non-smoker'>";		
+			print "<input type='radio' name='change_value' value='false'>";		
 			print "<label class=\"formtext\">Non-Smoking Room</label>";
 			print "</p>";
 			
@@ -70,37 +70,42 @@ include("../dbconnect.php") ?>
 		$formSubmitted = $_SERVER["REQUEST_METHOD"] == "POST";
 		if($formSubmitted) {
 			
-			$values = explode(",", $_POST['customer']);
-			print_r($values);
-			print "{$_POST['change_value']}";
-			/**
-			$values = $_POST['customer'];
-			$in = explode(",", $values);
+			$values = explode("//", $_POST['customer']);
+			$smoke = $_POST['change_value'];
+			$startDate = $values[6];
+			$endDate = $values[7];
+						
+			$sql = "SELECT MIN(rooms.rID) rID FROM rooms where hID = $hID and rID NOT IN (SELECT rooms.rID
+					                           											 FROM customer JOIN rooms  
+					                             										 WHERE customer.rID = rooms.rID
+																						 AND customer.hID = $hID
+					                            										 AND rStartDate <= '$startDate'
+					                            										 AND rEndDate >=  '$endDate')
+																		  and smoking = $smoke";
+			$result = mysqli_query($conn, $sql);
 			
-			$rStartDate = $in[0];
-			$rEndDate = $in[1];
-			$rID = $in[2];
+				if ($result) {
+					while(list($rID) = mysqli_fetch_array($result)) {
+						$customerId = $values[0];
+						$update_customer = "UPDATE customer SET rID = $rID WHERE cID = $customerId AND hID = $hID";
+						mysqli_query($conn, $update_customer);
+						
+						if(mysql_affected_rows() >= 0) {
+							$c_name = $values[2];
 			
-			$conn = new PDO("mysql:=host=$servername;dbname=$dbname", $username, $password);
-			$stmt = $conn->prepare("CALL cancelReservation(:sDate, :eDate, :hotel, :roomID)");
-			
-			$stmt->bindParam(':sDate', $rStartDate, PDO::PARAM_STR);
-			$stmt->bindParam(':eDate', $rEndDate, PDO::PARAM_STR);
-			$stmt->bindParam(':hotel', $hotelname, PDO::PARAM_STR); 
-			$stmt->bindParam(':roomID', $rID, PDO::PARAM_INT); 
-
-
-			// call the stored procedure
-			if ($stmt->execute()) {				
-				print "<span align='center'>";
-				print "<p><label class=\"formtext\">Successfully cancelled $name's reservation.</label></p>";
-				print "<p align='center'><button onclick='window.location.href = \"home.php\" ' class=\"btn\" >Back to Home!</button></p>";
-				print "</span>";
-			}
-			
-			$stmt->closeCursor();
-			**/
-		}
+							print "<span align='center'>";
+							print "<p><label class=\"formtext\">$c_name your new Room is $rID</label></p>";
+							print "<p align='center'><button onclick='window.location.href = \"home.php\" ' class=\"btn\" >Back to Home!</button></p>";
+							print "</span>";
+						} else {	
+							print "<span align='center'>";
+							print "<p><label class=\"formtext\">Something went wrong, Please try again.</label></p>";
+							print "<p align='center'><button onclick='window.location.href = \"home.php\" ' class=\"btn\" >Back to Home!</button></p>";
+							print "</span>";
+						}
+					}
+				}
+		} 
 	?>
 </div>
 

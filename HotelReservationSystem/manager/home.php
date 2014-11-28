@@ -54,6 +54,12 @@ include("../dbconnect.php") ?>
 					</td>
 			   </tr>
 			   
+			  	<tr align='center'>
+					<td>
+						<button onclick='window.location.href = \"assign_new_room.php\" '  class=\"btn\" >Assign New room to Customer</button>
+					</td>
+			  	</tr>
+			   
 			   <tr align='center'>
 					<td>
 						<button onclick='window.location.href = \"cancel_reservation.php\" '  class=\"btn\" >Cancel Customer's Reservation</button>
