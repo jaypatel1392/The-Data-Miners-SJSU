@@ -112,7 +112,7 @@ Released   : 20130428
 			{
 				$h_name = $row['companyName'];
 				// make a checklist for filter with the hotel names
-				echo "<input type=\"checkbox\" name=\"" . urlencode($h_name) . "\" value='" . $h_name . "'>" . $h_name . "</input><br>";
+				echo "<input type=\"checkbox\" name='hotels[]' value='" . $h_name . "'>" . $h_name . "</input><br>";
 			}
 		?>
 		<br>

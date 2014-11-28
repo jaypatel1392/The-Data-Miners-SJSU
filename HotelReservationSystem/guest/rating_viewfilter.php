@@ -47,13 +47,10 @@ Released   : 20130428
 				$empty = true;
 				$hotel_list = $conn->query("SELECT * FROM hotels ORDER BY companyName");
 				$hotels = array();
-				// loop through and store hotel names in array for later use
-				while ($row = $hotel_list->fetch_assoc())
-				{
-					$h_name = $row['companyName'];
-					$h_name2 = $_POST[urlencode($h_name)];
-					if ($h_name2 == $h_name) {
-						array_push($hotels, $h_name);
+				if(isset($_POST['hotels'])){
+					$checked_hotels = $_POST['hotels'];
+					foreach($checked_hotels as $hotel_name) {
+						array_push($hotels, $hotel_name);
 					}
 				}
 				
@@ -154,13 +151,13 @@ Released   : 20130428
 				$h_name  = $row['companyName'];
 				$h_name2 = null;
 				
-				if (isset($_POST[urlencode($h_name)])) {
-					$h_name2 = $_POST[urlencode($h_name)];
+				if (isset($_POST['hotels'])) {
+					$h_name2 = $_POST['hotels'];
 				}
 				if ($h_name2 == $h_name) { // show as checked if previously checked
-					echo "<input checked=true type=\"checkbox\" name=\"" . urlencode($h_name) . "\" value=\"" . $h_name . "\">" . $h_name . "</input><br>";
+					echo "<input checked=true type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
 				} else {
-					echo "<input type=\"checkbox\" name=\"" . urlencode($h_name) . "\" value=\"" . $h_name . "\">" . $h_name . "</input><br>";
+					echo "<input type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
 				}	
 			}
 		?>
