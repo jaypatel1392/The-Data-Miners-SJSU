@@ -145,19 +145,21 @@ Released   : 20130428
 		<h2><a>Friendly Filter</a></h2>
 		<form method="post" action="rating_viewfilter.php">
 		<?php
-			$hotels = $conn->query("SELECT * FROM hotels ORDER BY companyName");
+			$hotels  = $conn->query("SELECT * FROM hotels ORDER BY companyName");
+			$h_list = null;
+			// get array of checked hotels
+			if (isset($_POST['hotels'])) {
+				$h_list = $_POST['hotels'];
+			}
+			// loop through hotel list and echo output
 			while ($row = $hotels->fetch_assoc())
 			{
 				$h_name  = $row['companyName'];
-				$h_name2 = null;
-				
-				if (isset($_POST['hotels'])) {
-					$h_name2 = $_POST['hotels'];
-				}
-				if ($h_name2 == $h_name) { // show as checked if previously checked
+				if (in_array($h_name, $h_list)) { // if hotel was previously checked
 					echo "<input checked=true type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
 				} else {
 					echo "<input type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
+					array_push($_POST['hotels'], $h_name2);
 				}	
 			}
 		?>
