@@ -41,47 +41,27 @@ include("../dbconnect.php") ?>
 <div class="container">
 	<?php
 		$hotelname = $_SESSION['hotelname'];
+		$hID = $_SESSION["hid"]; 
 		$managername = $_SESSION['managername'];
-		
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
-		print "<h3 align='center'>Welcome $managername</h3>";
-		print "\n\n";
+		print "<h3 align='center'>Fire an employee</h3>";
+		$eID = $_POST['employee'];
 		
-		print "<table align='center'>
-			  <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"view_rev.php\" '  class=\"btn\" >View Revenue</button>
-					</td>
-			  </tr>
-			   <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"charge.php\" '  class=\"btn\" >Charge Customer</button>
-					</td>
-			   </tr>
-			   
-			  	<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"assign_new_room.php\" '  class=\"btn\" >Assign New room to Customer</button>
-					</td>
-			  	</tr>
-			   
-			   <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"cancel_reservation.php\" '  class=\"btn\" >Cancel Customer's Reservation</button>
-					</td>
-			  </tr>
-		 		<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"hire.php\" '  class=\"btn\" >Hire an employee</button>
-					</td>
-			  </tr>
-			<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"fire.php\" '  class=\"btn\" >Fire an employee</button>
-					</td>
-			  </tr>
-			  </table>";
-	?>
+		print $hID . "  " . $eID;
+		$query = "DELETE 
+				  FROM employee
+				  WHERE eID = '$eID' 
+				  		AND hID = $hID;";
+		$result = mysqli_query($conn, $query);
+		if (!$result)
+		{
+			die('Invalid query: ' . mysqli_error($conn));
+		}
+		else
+		{
+			print "<p> Successfully removed your employee: $eID</p>";
+		}
+		?>
 </div>
 
 

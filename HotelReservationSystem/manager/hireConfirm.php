@@ -39,49 +39,45 @@ include("../dbconnect.php") ?>
 </div>
 
 <div class="container">
+	<form action="hireConfirm.php" method="post"> <!--SEND TO charge.php afterwards -->
 	<?php
 		$hotelname = $_SESSION['hotelname'];
+		$hID = $_SESSION["hid"]; 
 		$managername = $_SESSION['managername'];
 		
-		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
-		print "<h3 align='center'>Welcome $managername</h3>";
-		print "\n\n";
+
+		$employeeName = $_POST['name'];
+		$employeePosition = $_POST['position'];
+		$employeeSalary = $_POST['salary'];
 		
-		print "<table align='center'>
-			  <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"view_rev.php\" '  class=\"btn\" >View Revenue</button>
-					</td>
-			  </tr>
-			   <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"charge.php\" '  class=\"btn\" >Charge Customer</button>
-					</td>
-			   </tr>
-			   
-			  	<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"assign_new_room.php\" '  class=\"btn\" >Assign New room to Customer</button>
-					</td>
-			  	</tr>
-			   
-			   <tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"cancel_reservation.php\" '  class=\"btn\" >Cancel Customer's Reservation</button>
-					</td>
-			  </tr>
-		 		<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"hire.php\" '  class=\"btn\" >Hire an employee</button>
-					</td>
-			  </tr>
-			<tr align='center'>
-					<td>
-						<button onclick='window.location.href = \"fire.php\" '  class=\"btn\" >Fire an employee</button>
-					</td>
-			  </tr>
-			  </table>";
+		$error = false;
+		
+		if($_POST['name'] || empty($_POST['position']) || empty($_POST['salary']) || is_int($_POST['salary']))
+		{
+			$error = true;
+		}		
+		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
+		?>
+	<?if(!$error):?>
+	   <p>Please enter correct values in the hire employee fields</p>
+	<?else:?>
+	<?php 
+	    $query = "INSERT INTO employee
+					SELECT (max(eID) + 1), '$hID', '$employeeName', '$employeePosition', '$employeeSalary'
+					FROM employee 
+					WHERE hID = '$hID';";
+	    $result = mysqli_query($conn, $query);
+	    if (!$result)
+	    {
+	    	die('Invalid query: ' . mysqli_error($conn));
+	    }
+	    else
+	    {
+	    	print "<p> Successfully added the new Employee: $employeeName Position: $employeePosition Salary: $employeeSalary</p>";
+	    }
+		
 	?>
+	<?endif?>
 </div>
 
 
