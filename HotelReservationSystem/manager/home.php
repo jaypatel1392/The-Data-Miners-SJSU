@@ -48,6 +48,11 @@ include("../dbconnect.php") ?>
 		print "\n\n";
 		
 		print "<table align='center'>
+			  <tr align='center'>
+					<td>
+						<button onclick='window.location.href = \"view_rev.php\" '  class=\"btn\" >View Revenue</button>
+					</td>
+			  </tr>
 			   <tr align='center'>
 					<td>
 						<button onclick='window.location.href = \"charge.php\" '  class=\"btn\" >Charge Customer</button>
