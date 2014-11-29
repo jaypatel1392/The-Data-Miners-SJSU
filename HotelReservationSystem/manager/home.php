@@ -48,11 +48,11 @@ include("../dbconnect.php") ?>
 		print "\n\n";
 		
 		print "<table align='center'>
-			  <tr align='center'>
+				<tr align='center'>
 					<td>
 						<button onclick='window.location.href = \"view_rev.php\" '  class=\"btn\" >View Revenue</button>
 					</td>
-			  </tr>
+				</tr>
 			   <tr align='center'>
 					<td>
 						<button onclick='window.location.href = \"charge.php\" '  class=\"btn\" >Charge Customer</button>
@@ -70,7 +70,13 @@ include("../dbconnect.php") ?>
 						<button onclick='window.location.href = \"cancel_reservation.php\" '  class=\"btn\" >Cancel Customer's Reservation</button>
 					</td>
 			  </tr>
-		 		<tr align='center'>
+			  
+			  <tr align='center'>
+					<td>
+						<button onclick='window.location.href = \"check-available-rooms.php\" '  class=\"btn\" >Check Available Rooms</button>
+					</td>
+			  </tr>
+			  <tr align='center'>
 					<td>
 						<button onclick='window.location.href = \"hire.php\" '  class=\"btn\" >Hire an employee</button>
 					</td>

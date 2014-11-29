@@ -36,7 +36,7 @@ include("../dbconnect.php") ?>
 		$managername = $_SESSION['managername'];
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
 		print "<h3 align='center'>Welcome $managername</h3>";
-		print "\n\n";
+		print "<br/><br/>";
 			
 		$sql = "SELECT * FROM customer where hID = $hID";
 		$result = mysqli_query($conn, $sql);
