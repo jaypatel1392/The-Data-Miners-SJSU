@@ -66,7 +66,6 @@ Released   : 20130428
 					                            		AND rStartDate <= '$sDate'
 					                            		AND rEndDate >=  '$eDate')";
 					$result = $conn->query($sql);
-					$rs = $result->fetch_assoc();
 				
 					echo "<table>
 				<thead>
