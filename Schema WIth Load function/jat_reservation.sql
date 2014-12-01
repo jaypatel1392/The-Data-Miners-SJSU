@@ -212,7 +212,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation`(IN sDate DATE, I
 BEGIN 
 	DELETE FROM customer
 	WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
-	AND hID=(SELECT hID FROM hotels WHERE companyName=hotel);
+	AND hID IN (SELECT hID FROM hotels WHERE companyName=hotel);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
