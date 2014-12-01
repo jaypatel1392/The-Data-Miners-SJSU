@@ -54,7 +54,7 @@ DELIMITER ;;
 AFTER INSERT ON `customer` 
 FOR EACH ROW 
 BEGIN 
-IF(TIMESTAMPDIFF(DAY, NEW.rStartDate, NEW.rEndDate) >14)
+IF(TIMESTAMPDIFF(DAY, NEW.rStartDate, NEW.rEndDate) >14 AND New.cID NOT IN (SELECT cID FROM parking))
 THEN 
 INSERT INTO parking (hID, valet, cID) 
 VALUES (NEW.hID, 1, NEW.cID);

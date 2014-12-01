@@ -61,7 +61,7 @@ Released   : 20130428
 					FROM hotels NATURAL JOIN rooms JOIN customer
 					WHERE location = '$location' 
 					       AND rooms.rID NOT IN( SELECT rooms.rID
-					                             FROM customer JOIN rooms
+					                             FROM customer
 					                             WHERE customer.rID = rooms.rID
 					                            		AND rStartDate <= '$sDate'
 					                            		AND rEndDate >=  '$eDate')";
