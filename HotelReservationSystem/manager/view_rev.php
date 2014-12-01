@@ -57,7 +57,7 @@ include("../dbconnect.php") ?>
 			$result = mysqli_query($conn, $sql);
 	        if($result) {
     	    	$result = $result->fetch_assoc();
-    	    	if ($option) {
+    	    	if ($option == 'true') {
 	    	    	echo "<h2>$hname Revenue for Smoking Rooms</h2>";
 	    	    } else {
 	    	    	echo "<h2>$hname Revenue for Non-Smoking Rooms</h2>";
