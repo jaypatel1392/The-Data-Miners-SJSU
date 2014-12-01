@@ -45,10 +45,11 @@ Released   : 20130428
 		<div class="entry">
 			<?php 
 				// grabbing vars
-				$sDate    = $_GET['startDate'];
-				$eDate    = $_GET['endDate'];
-				$hotel    = $_GET['hotel'];
-				$roomid   = $_GET['roomid'];
+				$sDate    = $_POST['startDate'];
+				$eDate    = $_POST['endDate'];
+				$hotel    = $_POST['hotel'];
+				$roomid   = $_POST['roomid'];
+				$city     = $_POST['city'];
 				$bullshit = false;
 				
 				// check if input is empty or invalid data
@@ -62,9 +63,10 @@ Released   : 20130428
 				{
 					echo "<h1>WHOOOPSiE!</h1><p>It looks like you didn't fill out the form completely.</p>";
 					
-					#check to see if date is in format: YYYY-MM-DD
+					#check to see if date is in format: YYYY-MM-DD and sDate starts before eDate
 					if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$sDate) 
-						|| !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$eDate) )
+						|| !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$eDate)
+						|| $sDate > $eDate)
 					{
 						echo "<p>Please go back and fill out the following fields:
 						</br><li>Date (YYYY-MM-DD)</li><li>Room Number</li></p>";
@@ -75,10 +77,16 @@ Released   : 20130428
 					}
 					$bullshit = true;
 				}
+				else if (!$city)
+				{
+					$bullshit = true;
+					echo "<h1>Uh oh,</h1><p>You forgot to select the city. 
+					<br>Please head back to the previous page to select the location of your hotel.</p>";
+				}
 				else
 				{
 					//check to see if request is REALLY valid
-					$hid = $conn->query("SELECT * from hotels WHERE companyName = '$hotel'");
+					$hid = $conn->query("SELECT * from hotels WHERE companyName = '$hotel' AND location = '$city'");
 					$hid = $hid->fetch_assoc();
 
 					$sql = "SELECT * from customer WHERE rStartDate='$sDate' AND rEndDate='$eDate' AND rID='$roomid'";
@@ -89,14 +97,14 @@ Released   : 20130428
 					{
 						$bullshit = true;
 						echo "<h1>We're sorry...</h1><p>Your reservation could not be found.<br>
-						Please go back and make sure your have entered in the correct reservation information.</p>"; 
+						Please go back and make sure your have entered in your correct reservation information.</p>"; 
 					}
 				}
 				
 				if (!$bullshit)
 				{
 					// calling stored procedure to cancel
-					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomid')"))
+					if (!$conn->query("CALL cancelReservation('$sDate', '$eDate', '$hotel', '$roomid', '$city')"))
 					{
 						die('Sorry, something went awry... ' . mysqli_error($conn));
 					}
@@ -107,7 +115,7 @@ Released   : 20130428
 						<p>You have requested to cancel your reservation at the " . $hotel . " hotel.</p>"
 						. "<p>Date of reservation to be canceled: <br/>Start Date: " . $sDate . "<br/>End Date: " . $eDate
 						. "</p><p>Room Canceled: " . $roomid . "</p>" .
-						"<p>Please save for your records.</p>";
+						"<p><b>Please save for your records.</b></p>";
 					}
 				}
 			?>

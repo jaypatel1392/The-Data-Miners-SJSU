@@ -43,18 +43,31 @@ Released   : 20130428
 		<h2 class="title"><a>Cancel My Reservation, please.</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
-		<form action="cancel_result.php">
+		<form method="post" action="cancel_result.php">
 			<br/>Please select your hotel and room number:
-			<!--Drop down menu for hotel and room id -->
-			<p>
-				<select name="hotel">
-					<option value='' style='display:none;'>Select Hotel</option>
-					<option value="Hilton">Hilton</option>
-					<option value="Marriott">Marriott</option>
-					<option value="Embassy Suites">Embassy Suites</option>
-					<option value="Hyatt">Hyatt</option>
-					<option value="Caesars Palace">Caesars Palace</option>
-				</select>
+			<!--Drop down menu for location, hotel and room id -->
+			<?php
+				$sql = "select companyName, location from hotels group by companyName";
+				$hotels = $conn->query($sql);
+				// outputs Hotel's location for dropdown
+				echo "<p><select name=\"city\">
+						<option value='' systel='display:none;'>Select Location</option>";
+				while ($row = $hotels->fetch_assoc()) {
+					$loc = $row['location'];
+					echo "<option value='" . $loc . "'>" . $loc . "</option>";
+				}
+				echo "</select>&nbsp";
+				
+				$hotels = $conn->query($sql);
+				// outputs Hotel's name for dropdown
+				echo "<select name=\"hotel\">
+						<option value='' style='display:none;'>Select Hotel</option>";
+				while ($row = $hotels->fetch_assoc()) {
+					$h_name = $row['companyName'];
+					echo "<option value='" . $h_name . "'>" . $h_name . "</option>";
+				}
+				echo "</select>";
+			?>
 				<select name="roomid">
 					<option value='' style='display:none;'>Room Number</option>
 					<option value="1">1</option>

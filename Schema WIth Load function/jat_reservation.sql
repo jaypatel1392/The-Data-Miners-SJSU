@@ -208,11 +208,11 @@ SET character_set_client = @saved_cs_client;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation`(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cancelReservation`(IN sDate DATE, IN eDate DATE, IN hotel VARCHAR(50) CHARSET utf8, IN roomid INT, IN loc VARCHAR(50) CHARSET utf8)
 BEGIN 
 	DELETE FROM customer
 	WHERE rID=roomid AND rStartDate=sDate AND rEndDate=eDate
-	AND hID IN (SELECT hID FROM hotels WHERE companyName=hotel);
+	AND hID IN (SELECT hID FROM hotels WHERE companyName=hotel AND location=loc);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
