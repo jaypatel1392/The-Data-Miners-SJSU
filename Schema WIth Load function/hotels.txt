@@ -1,0 +1,5 @@
+1	Hilton	San Francisco	30
+2	Marriott	New York	50
+3	Embassy Suites	Boston	35
+4	Hyatt	Chicago	20
+5	Caesars Palace	Las Vegas	60
