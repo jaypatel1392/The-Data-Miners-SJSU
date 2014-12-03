@@ -65,7 +65,7 @@ Released   : 20130428
 					$result = $conn->query($sql);
 					$HID = $result->fetch_assoc();
 					$HID = $HID['hID'];
-					$sql = "SELECT count(*) AS number FROM customer";
+					$sql = "SELECT max(cID) + 1 AS number FROM customer";
 					$result = $conn->query($sql);
 					$counter = $result->fetch_assoc(); 
 					$counter = $counter['number'];
@@ -77,6 +77,23 @@ Released   : 20130428
 					}
 					echo "<p>Successfully added your reservation for $hotel in " . $_POST['location'] . " room: $room on $sDate to $eDate</p>";
 					echo "<p>Your is Hotel ID is: " . $HID . " , your Room Number is $room and your customer ID is: $counter. You can use this informaton to view or cancel your reservation.";
+					$date1 = new DateTime($sDate);
+					$date2 = new DateTime($eDate);
+					if($date1->diff($date2)->d > 14)
+					{
+						echo "<p>Since you are staying for more than 14 days we are offering you complimentary valet parking!</p>";
+					}
+					else
+					{
+						echo "<p>Would you like a reserved parking spot at your hotel?";
+						echo "<form action= 'confirmParking.php' method = 'post'>";
+						echo "<input type='hidden' name='HID' value='$HID' />
+					<input type='hidden' name='CID' value='$counter' />";
+						echo "<input type='submit' name = 'pType' value='NonValet Parking'>";
+						echo "<input type='submit' name='pType' value='Valet Parking'>
+					</form>";
+						
+					}
 				}
 					
 			?>	
