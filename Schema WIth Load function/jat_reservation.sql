@@ -41,16 +41,6 @@ CREATE TABLE `customer` (
   CONSTRAINT `fk_Customer_Rooms1` FOREIGN KEY (`rID`, `hID`) REFERENCES `rooms` (`rID`, `hID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer`
---
-
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,1,1,'Bruce Wayne','9999 Main St. San Jose, CA 95131',111122223334,1,'2014-12-22','2014-12-30',0,'2014-11-17 01:10:53'),(1,2,1,'Loki','9999 Some Universer Asgard, OS 96131',111122223324,1,'2015-01-22','2015-01-30',5,'2014-11-17 01:10:53'),(1,3,1,'Anna','8888 Some Universer Asgard, OS 97131',111322223324,1,'2015-10-22','2015-10-30',15,'2014-11-17 01:10:53'),(1,4,1,'Sofia','8888 New York St. San Mateo, CA 95131',110022223324,1,'2015-01-20','2015-01-30',10,'2014-11-17 01:10:53'),(1,5,1,'Colton','777 Main St. San Jose, CA 95131',111120023334,1,'2014-12-20','2014-12-30',0,'2014-11-17 01:10:53'),(2,1,2,'Clark Kent','777 First St. Washington, MA 95131',111122223335,1,'2015-04-14','2015-04-30',10,'2014-11-17 01:10:53'),(2,2,2,'Iron Man','666 Universal Studios Anahiem, CA 978651',111122223315,1,'2015-06-14','2015-06-30',0,'2014-11-17 01:10:53'),(2,3,2,'Aaliyah','909 Universal Studios Anahiem, CA 978651',111132223315,1,'2015-11-14','2015-11-30',5,'2014-11-17 01:10:53'),(2,4,2,'Grace','707 Professor Oak Pokemon, LN 12345',111022223315,1,'2015-06-14','2015-06-20',10,'2014-11-17 01:10:53'),(2,5,2,'Jace','807 No St. Washington, MA 95131',111122223300,1,'2015-04-01','2015-04-30',0,'2014-11-17 01:10:53'),(3,1,6,'Diana','907 Second St. New York, NY 95131',111122223336,0,'2014-12-22','2014-12-30',0,'2014-11-17 01:10:53'),(3,2,6,'Super Man','888 California St. San Francisco, CA 95131',111122223339,0,'2015-12-22','2015-12-30',5,'2014-11-17 01:10:53'),(3,3,6,'Alexis','8888 California St. San Francisco, CA 95131',111123223339,0,'2015-09-22','2015-09-30',5,'2014-11-17 01:10:53'),(3,4,6,'Peyton','8888 Washington St. Gotham, NH 95131',110122223339,0,'2015-12-22','2015-12-25',10,'2014-11-17 01:10:53'),(3,5,6,'Angel','8888 Some St. New York, NY 95131',111002223336,0,'2015-11-22','2015-12-05',0,'2014-11-17 01:10:53');
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
