@@ -64,7 +64,8 @@ Released   : 20130428
 					$result = mysqli_query($conn, $query);
 					if (!$result)
 					{
-						die('Invalid query: ' . mysqli_error($conn));
+						//die('Invalid query: ' . mysqli_error($conn));
+						die('Oops... something went wrong!');
 					}
 					echo "<p>Successfully added your parking spot to your reservation for you</p>";
 				

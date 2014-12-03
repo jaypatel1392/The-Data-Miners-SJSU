@@ -73,7 +73,8 @@ Released   : 20130428
 					$result = mysqli_query($conn, $query);
 					if (!$result)
 					{
-						die('Invalid query: ' . mysqli_error($conn));
+					//	die('Invalid query: ' . mysqli_error($conn));
+						die('Ooops, something went wrong!');
 					}
 					echo "<p>Successfully added your reservation for $hotel in " . $_POST['location'] . " room: $room on $sDate to $eDate</p>";
 					echo "<p>Your is Hotel ID is: " . $HID . " , your Room Number is $room and your customer ID is: $counter. You can use this informaton to view or cancel your reservation.";
