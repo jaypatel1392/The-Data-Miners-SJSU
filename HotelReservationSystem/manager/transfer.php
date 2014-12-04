@@ -39,28 +39,62 @@ include("../dbconnect.php") ?>
 </div>
 
 <div class="container">
+	<form action="confirmTransfer.php" method="post">
+		<table align="center">
 	<?php
 		$hotelname = $_SESSION['hotelname'];
 		$hID = $_SESSION["hid"]; 
 		$managername = $_SESSION['managername'];
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
-		print "<h3 align='center'>Fire an employee</h3>";
-		$eID = $_POST['employee'];
-		
-		$query = "DELETE 
-				  FROM employee
-				  WHERE eID = '$eID' 
-				  		AND hID = $hID;";
-		$result = mysqli_query($conn, $query);
-		if (!$result)
-		{
-			die('Invalid query: ' . mysqli_error($conn));
-		}
-		else
-		{
-			print "<p> Successfully removed your employee: $eID</p>";
-		}
+		print "<h3 align='center'>Transfer an employee</h3>";
 		?>
+		
+            <tr>
+            <p>Employee:</p>
+            <select name="employee" class="inputs">
+            <?php $sql = "SELECT name, eID
+				FROM employee 
+				WHERE hID = '$hID'
+				AND name <> '$managername';";
+				$result = mysqli_query($conn, $sql);
+				
+				if($result) 
+				{
+						while(list($name, $eID) = mysqli_fetch_array($result)) 
+						{
+						print "<option  value=\"$eID\">ID: $eID Name: $name</option>";
+						}
+				}
+			?>
+				</select>
+            </tr>
+            <tr>
+           <p>Transfer to:</p>
+            <select name="hotel" class="inputs">
+            <?php  $SQL = "SELECT companyName, hID FROM hotels WHERE hID <> '$hID';";
+            $result = mysqli_query($conn, $SQL);
+            
+            if($result)
+            {
+            	while(list($name, $hID) = mysqli_fetch_array($result))
+            	{
+            		print "<option  value=\"$hID\">Hotel: $name</option>";
+            	}
+            }
+            
+            ?>
+            </select>
+            </tr>
+            <tr>
+            	<td colspan="2" align="center">
+            		<input type="submit" value="Transfer this employee" class="btn"/>
+                </td>
+            </tr>
+            
+        </table>
+        </form>
+        
+					
 </div>
 
 

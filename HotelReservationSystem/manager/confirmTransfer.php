@@ -44,21 +44,25 @@ include("../dbconnect.php") ?>
 		$hID = $_SESSION["hid"]; 
 		$managername = $_SESSION['managername'];
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
-		print "<h3 align='center'>Fire an employee</h3>";
+		print "<h3 align='center'>Transfer an employee</h3>";
 		$eID = $_POST['employee'];
-		
-		$query = "DELETE 
-				  FROM employee
+		$newhID = $_POST['hotel'];
+		$query = "SELECT max(eID) + 1 FROM employee WHERE hID = '$newhID' AND position <> 'Owner';";
+		$result = mysqli_query($conn, $query);
+		list($value) = mysqli_fetch_array($result);
+				
+		$query = "UPDATE employee 
+				  SET eID = '$value', hID = '$newhID'
 				  WHERE eID = '$eID' 
 				  		AND hID = $hID;";
 		$result = mysqli_query($conn, $query);
 		if (!$result)
 		{
-			die('Invalid query: ' . mysqli_error($conn));
+			die("Something went wrong....Try again.");
 		}
 		else
 		{
-			print "<p> Successfully removed your employee: $eID</p>";
+			print "<p> Successfully transfered your employee</p>";
 		}
 		?>
 </div>

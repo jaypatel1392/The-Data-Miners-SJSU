@@ -86,6 +86,11 @@ include("../dbconnect.php") ?>
 						<button onclick='window.location.href = \"fire.php\" '  class=\"btn\" >Fire an employee</button>
 					</td>
 			  </tr>
+		<tr align='center'>
+					<td>
+						<button onclick='window.location.href = \"transfer.php\" '  class=\"btn\" >Transfer an employee</button>
+					</td>
+			  </tr>
 			  </table>";
 	?>
 </div>

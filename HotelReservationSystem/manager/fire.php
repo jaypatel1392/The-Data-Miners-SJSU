@@ -48,8 +48,9 @@ include("../dbconnect.php") ?>
 				FROM employee 
 				WHERE hID = '$hID'
 				AND name <> '$managername';";
-				$result = mysqli_query($conn, $sql);?>
-<?if(empty(mysqli_fetch_array($result))):?>
+				$result = mysqli_query($conn, $sql);
+				$bleh = mysqli_fetch_array($result)?>
+<?if(empty($bleh)):?>
 <p>You have no employees to fire!</p>
 <?else:?>
 <div class="container">
@@ -62,7 +63,11 @@ include("../dbconnect.php") ?>
 
 		<?php
 		
-	
+		
+				$name = $bleh['name'];
+				$eID = $bleh['eID'];
+		
+				print "<option  value=\"$name\">ID: $eID Name: $name</option>";
 		
 				if($result) 
 				{
