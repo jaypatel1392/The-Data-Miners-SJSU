@@ -79,7 +79,7 @@ Released   : 20130428
 	<div id="box3">
 		<h2><a>Other Ratings</a></h2>
 		<?php
-			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
+			$hotels     = $conn->query("SELECT companyName FROM hotels GROUP BY companyName ORDER BY companyName");
 			$avg_rating = "SELECT avg(rating) as avg, companyName, review FROM viewratings WHERE companyName='";
 			while ($row = $hotels->fetch_assoc())
 			{
