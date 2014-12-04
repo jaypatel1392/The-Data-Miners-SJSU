@@ -47,7 +47,7 @@ include("../dbconnect.php") ?>
 		print "<h3 align='center'>Transfer an employee</h3>";
 		$eID = $_POST['employee'];
 		$newhID = $_POST['hotel'];
-		$query = "SELECT max(eID) + 1 FROM employee WHERE hID = '$newhID' AND position <> 'Owner';";
+		$query = "SELECT max(eID) + 1 FROM employee WHERE hID = '$newhID';";
 		$result = mysqli_query($conn, $query);
 		list($value) = mysqli_fetch_array($result);
 				

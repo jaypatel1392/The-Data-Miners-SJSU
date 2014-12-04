@@ -55,7 +55,7 @@ include("../dbconnect.php") ?>
             <?php $sql = "SELECT name, eID
 				FROM employee 
 				WHERE hID = '$hID'
-				AND name <> '$managername';";
+				AND name <> '$managername' AND position <> 'Owner';";
 				$result = mysqli_query($conn, $sql);
 				
 				if($result) 
