@@ -1,3 +1,5 @@
+DROP TRIGGER IF EXISTS `bonus`;
+DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` TRIGGER bonus
 AFTER INSERT ON rating 
 FOR EACH ROW 
@@ -7,4 +9,5 @@ BEGIN
 		SET salary = salary + 10
 		WHERE employee.hID = new.hID;
 	END IF ;
-END
+END ;;
+DELIMITER ;

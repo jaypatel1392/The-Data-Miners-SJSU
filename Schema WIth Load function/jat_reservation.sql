@@ -41,6 +41,7 @@ CREATE TABLE `customer` (
   CONSTRAINT `fk_Customer_Rooms1` FOREIGN KEY (`rID`, `hID`) REFERENCES `rooms` (`rID`, `hID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -101,6 +102,7 @@ CREATE TABLE `hotels` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
 --
 -- Table structure for table `managerlogin`
 --
@@ -135,7 +137,7 @@ CREATE TABLE `parking` (
   PRIMARY KEY (`pID`,`hID`),
   KEY `fk_Parking_Customer1_idx` (`cID`,`hID`),
   CONSTRAINT `fk_Parking_Customer1` FOREIGN KEY (`cID`, `hID`) REFERENCES `customer` (`cID`, `hID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,6 +158,38 @@ CREATE TABLE `rating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `rating`
+--
+
+LOCK TABLES `rating` WRITE;
+/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER bonus
+AFTER INSERT ON rating 
+FOR EACH ROW 
+BEGIN
+	IF (new.rating >= 4) THEN
+		UPDATE employee
+		SET salary = salary + 10
+		WHERE employee.hID = new.hID;
+	END IF ;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `rooms`
@@ -180,7 +214,6 @@ LOAD DATA LOCAL INFILE 'c:\\mysql\\employee.txt' INTO TABLE EMPLOYEE;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\hotels.txt' INTO TABLE HOTELS;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\managerlogin.txt' INTO TABLE MANAGERLOGIN;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\rooms.txt' INTO TABLE ROOMS;
-
 --
 -- Temporary table structure for view `viewratings`
 --
@@ -199,6 +232,33 @@ SET character_set_client = @saved_cs_client;
 --
 -- Dumping routines for database 'jat_reservation'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `archive` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `archive`(IN d DATE)
+BEGIN
+	INSERT INTO customerArchiving
+	SELECT * 
+	FROM customer
+	WHERE updatedAt < d AND (cID, hID) NOT IN (select cID, hID FROM customerArchiving);
+
+	INSERT INTO parkingArchiving
+	SELECT * 
+	FROM parking
+	WHERE updatedAt < d AND (pID, hID) NOT IN (select pID, hID FROM parkingArchiving); 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `cancelReservation` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -290,4 +350,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-02 16:10:46
+-- Dump completed on 2014-12-04 10:54:10
