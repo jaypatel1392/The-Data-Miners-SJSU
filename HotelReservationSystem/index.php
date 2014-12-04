@@ -36,6 +36,7 @@ Released   : 20130428
 				<li><a href="guest/cancel.php">Cancel Reservation</a></li>
 				<li><a href="guest/rating_view.php">Hotel Ratings</a></li>
 				<li><a href="guest/feedback.php">Leave Feedback</a></li>
+                <li><a href="guest/price_calculator.php">Compare Prices</a></li>
 			</ul>
 		</li>
 		<li>
