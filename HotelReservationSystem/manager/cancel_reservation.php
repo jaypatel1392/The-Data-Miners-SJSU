@@ -46,7 +46,6 @@ include("../dbconnect.php") ?>
 		$managername = $_SESSION['managername'];
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
 		print "<h3 align='center'>Welcome $managername</h3>";
-		$n = null;
 		$sql = "SELECT * FROM customer where hID = $hID";
 		$result = mysqli_query($conn, $sql);
 		      
@@ -56,9 +55,8 @@ include("../dbconnect.php") ?>
 			
 			$cid = -1;
             while(list($cID, $hid, $rID, $name, $address, $ccNo, $somker, $rStartDate, $rEndDate, $discount) = mysqli_fetch_array($result)) {
-				$info = $rStartDate . "," . $rEndDate . "," . $rID;
+				$info = $rStartDate . "," . $rEndDate . "," . $rID . "," . $name;
 				print "<option value='$info'>$name staying at Room #$rID</option>";
-				$n = $name;
 			}
 			print "</select></p>";
 			print "<p><input type=\"submit\" class=\"btn\"/></p>";
@@ -73,6 +71,7 @@ include("../dbconnect.php") ?>
 			$rStartDate = $in[0];
 			$rEndDate = $in[1];
 			$rID = $in[2];
+			$name = $in[3];
 			
 			$query = "select location from hotels where hID=$hID";
 			$city = $conn->query($query);
@@ -92,7 +91,7 @@ include("../dbconnect.php") ?>
 			// call the stored procedure
 			if ($stmt->execute()) {				
 				print "<span align='center'>";
-				print "<p><label class=\"formtext\">Successfully cancelled $n's reservation.</label></p>";
+				print "<p><label class=\"formtext\">Successfully cancelled $name's reservation.</label></p>";
 				print "<p align='center'><button onclick='window.location.href = \"home.php\" ' class=\"btn\" >Back to Home!</button></p>";
 				print "</span>";
 			}
