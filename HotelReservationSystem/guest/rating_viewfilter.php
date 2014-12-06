@@ -30,8 +30,8 @@ Released   : 20130428
 </div>
 <div id="menu" class="container">
 	<ul>
+		<li><a href="../index.php">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
-		<li><a href="price_calculator.php">Compare Prices</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
 		<li class="current_page_item"><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
@@ -122,7 +122,7 @@ Released   : 20130428
 	<div id="box2">
 		<h2><a>Average Ratings</a></h2>
 		<?php
-			$hotels     = $conn->query("SELECT companyName FROM hotels GROUP BY companyName ORDER BY companyName");
+			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
 			$avg_rating = "SELECT avg(rating) as avg, companyName FROM viewratings WHERE companyName='";
 			while ($row = $hotels->fetch_assoc())
 			{
@@ -145,11 +145,12 @@ Released   : 20130428
 		<h2><a>Friendly Filter</a></h2>
 		<form method="post" action="rating_viewfilter.php">
 		<?php
-			$hotels  = $conn->query("SELECT * FROM hotels GROUP BY companyName ORDER BY companyName");
-			$h_list = null;
+			$hotels  = $conn->query("SELECT * FROM hotels ORDER BY companyName");
 			// get array of checked hotels
 			if (isset($_POST['hotels'])) {
 				$h_list = $_POST['hotels'];
+			} else {
+				$h_list = array();
 			}
 			// loop through hotel list and echo output
 			while ($row = $hotels->fetch_assoc())
@@ -159,7 +160,7 @@ Released   : 20130428
 					echo "<input checked=true type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
 				} else {
 					echo "<input type=\"checkbox\" name='hotels[]' value=\"" . $h_name . "\">" . $h_name . "</input><br>";
-					array_push($_POST['hotels'], $h_name2);
+					//array_push($_POST['hotels'], $h_name2);
 				}	
 			}
 		?>
