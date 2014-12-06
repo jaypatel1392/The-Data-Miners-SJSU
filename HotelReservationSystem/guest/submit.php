@@ -89,7 +89,8 @@ Released   : 20130428
 					echo "<p>Your is Hotel ID is: " . $HID . " , your Room Number is $room and your customer ID is: $counter. You can use this informaton to view or cancel your reservation.";
 					$date1 = new DateTime($sDate);
 					$date2 = new DateTime($eDate);
-					if($date1->diff($date2)->d > 14)
+					$interval = $date1->diff($date2);
+					if($interval->format('%a') > 14)
 					{
 						echo "<p>Since you are staying for more than 14 days we are offering you complimentary valet parking!</p>";
 					}
