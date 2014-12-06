@@ -53,22 +53,23 @@ Released   : 20130428
 				$credit = mysqli_real_escape_string($conn,$_POST['CC']);
 				$discount = mysqli_real_escape_string($conn,$_POST['discount']);
 				$smoke = mysqli_real_escape_string($conn,$_POST['smoke']);
-				if($smoke)
-				{
-					$smoke = 1;
-				}
-				else 
-				{
-					$smoke = 0;
-				}
 				if(empty($hotel) || empty($room) || empty($name) || empty($address) || empty($credit) || empty($smoke))
 				{
 					$error = true;
 				}
 				if($error)
 					echo "<p>You must fill out the form correctly! Please try to make a reservation again </p>";
+			
 				else
 				{
+					if($smoke == 'yes')
+					{
+						$smoke = 1;
+					}
+					else
+					{
+						$smoke = 0;
+					}
 					$sql = "SELECT hID FROM hotels WHERE companyName = '$hotel'";
 					$result = $conn->query($sql);
 					$HID = $result->fetch_assoc();

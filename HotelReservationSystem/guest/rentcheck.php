@@ -124,8 +124,8 @@ Released   : 20130428
 				<option value='15'>15%</option>
 				</select><br><br>
 				<p>Are you a smoker?</p>
-							<input type='radio' name='smoke' value='true'>Smoker
-							<input type='radio' name='smoke' value='false'>Non Smoker
+							<input type='radio' name='smoke' value='yes'>Smoker
+							<input type='radio' name='smoke' value='no'>Non Smoker
 					<input type='hidden' name='sDate' value='$sDate' />
 					<input type='hidden' name='location' value='$location' />
 					<input type='hidden' name='eDate' value='$eDate' />";
