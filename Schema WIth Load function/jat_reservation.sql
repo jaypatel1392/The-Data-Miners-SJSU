@@ -42,6 +42,29 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `customerarchiving`
+--
+
+DROP TABLE IF EXISTS `customerarchiving`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customerarchiving` (
+  `cID` int(11) NOT NULL,
+  `hID` int(11) NOT NULL,
+  `rID` int(11) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `address` varchar(250) DEFAULT NULL,
+  `ccNo` bigint(20) DEFAULT NULL,
+  `smoker` tinyint(1) DEFAULT NULL,
+  `rStartDate` date DEFAULT NULL,
+  `rEndDate` date DEFAULT NULL,
+  `discount` int(11) DEFAULT NULL,
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`cID`,`hID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -55,7 +78,7 @@ DELIMITER ;;
 AFTER INSERT ON `customer` 
 FOR EACH ROW 
 BEGIN 
-IF(TIMESTAMPDIFF(DAY, NEW.rStartDate, NEW.rEndDate) >14 AND New.cID NOT IN (SELECT cID FROM parking))
+IF(DATEDIFF(NEW.rEndDate, NEW.rStartDate) > 14 AND (New.cID, New.hID) NOT IN (SELECT cID, hID FROM parking where hID = NEW.hID))
 THEN 
 INSERT INTO parking (hID, valet, cID) 
 VALUES (NEW.hID, 1, NEW.cID);
@@ -137,7 +160,24 @@ CREATE TABLE `parking` (
   PRIMARY KEY (`pID`,`hID`),
   KEY `fk_Parking_Customer1_idx` (`cID`,`hID`),
   CONSTRAINT `fk_Parking_Customer1` FOREIGN KEY (`cID`, `hID`) REFERENCES `customer` (`cID`, `hID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `parkingarchiving`
+--
+
+DROP TABLE IF EXISTS `parkingarchiving`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `parkingarchiving` (
+  `pID` int(11) NOT NULL,
+  `hID` int(11) NOT NULL,
+  `valet` tinyint(1) DEFAULT NULL,
+  `cID` int(11) DEFAULT NULL,
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`pID`,`hID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,11 +249,12 @@ CREATE TABLE `rooms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+LOAD DATA LOCAL INFILE 'c:\\mysql\\hotels.txt' INTO TABLE HOTELS;
+LOAD DATA LOCAL INFILE 'c:\\mysql\\rooms.txt' INTO TABLE ROOMS;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\customers.txt' INTO TABLE CUSTOMER;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\employee.txt' INTO TABLE EMPLOYEE;
-LOAD DATA LOCAL INFILE 'c:\\mysql\\hotels.txt' INTO TABLE HOTELS;
 LOAD DATA LOCAL INFILE 'c:\\mysql\\managerlogin.txt' INTO TABLE MANAGERLOGIN;
-LOAD DATA LOCAL INFILE 'c:\\mysql\\rooms.txt' INTO TABLE ROOMS;
 --
 -- Temporary table structure for view `viewratings`
 --
