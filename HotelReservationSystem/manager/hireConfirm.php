@@ -69,7 +69,7 @@ include("../dbconnect.php") ?>
 	    $result = mysqli_query($conn, $query);
 	    if (!$result)
 	    {
-	    	die('Invalid query: ' . mysqli_error($conn));
+	    	die("Oops, something went wrong. Please try again later.");
 	    }
 	    else
 	    {
