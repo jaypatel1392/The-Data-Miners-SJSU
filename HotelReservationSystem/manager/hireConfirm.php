@@ -52,32 +52,31 @@ include("../dbconnect.php") ?>
 		
 		$error = false;
 		
-		if($_POST['name'] || empty($_POST['position']) || empty($_POST['salary']) || is_int($_POST['salary']))
+		if(empty($_POST['name']) || empty($_POST['position']) || empty($_POST['salary']))
 		{
 			$error = true;
 		}		
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
 		?>
-	<?if(!$error):?>
-	   <p>Please enter correct values in the hire employee fields</p>
-	<?else:?>
-	<?php 
-	    $query = "INSERT INTO employee
-					SELECT (max(eID) + 1), '$hID', '$employeeName', '$employeePosition', '$employeeSalary'
-					FROM employee 
-					WHERE hID = '$hID';";
-	    $result = mysqli_query($conn, $query);
-	    if (!$result)
-	    {
-	    	die("Oops, something went wrong. Please try again later.");
-	    }
-	    else
-	    {
-	    	print "<p> Successfully added the new Employee: $employeeName Position: $employeePosition Salary: $employeeSalary</p>";
-	    }
-		
+	<?php
+		if($error == false) {
+			$query = "INSERT INTO employee
+						SELECT (max(eID) + 1), '$hID', '$employeeName', '$employeePosition', '$employeeSalary'
+						FROM employee 
+						WHERE hID = '$hID';";
+			$result = mysqli_query($conn, $query);
+			if (!$result)
+			{
+				die('Invalid query: ' . mysqli_error($conn));
+			}
+			else
+			{
+				print "<p> Successfully added the new Employee: $employeeName Position: $employeePosition Salary: $employeeSalary</p>";
+			}
+		} else {
+			print "<p>Please provide correct inputs and try again....</p>";
+		}
 	?>
-	<?endif?>
 </div>
 
 

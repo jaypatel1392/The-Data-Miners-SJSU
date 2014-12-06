@@ -54,8 +54,7 @@ include("../dbconnect.php") ?>
 		$result = mysqli_query($conn, $query);
 		if (!$result)
 		{
-			die("Oops... Something went wrong. Please try again later.");
-		}
+			die("Oops... Something went wrong. Please try again later.");		}
 		else
 		{
 			print "<p> Successfully removed your employee: $eID</p>";

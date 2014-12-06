@@ -30,8 +30,8 @@ Released   : 20130428
 </div>
 <div id="menu" class="container">
 	<ul>
+		<li><a href="../index.php">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
-		<li><a href="price_calculator.php">Compare Prices</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
 		<li class="current_page_item"><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>
@@ -84,7 +84,7 @@ Released   : 20130428
 	<div id="box2">
 		<h2><a>Average Ratings</a></h2>
 		<?php
-			$hotels     = $conn->query("SELECT companyName FROM hotels GROUP BY companyName ORDER BY companyName");
+			$hotels     = $conn->query("SELECT companyName FROM hotels ORDER BY companyName");
 			$avg_rating = "SELECT avg(rating) as avg, companyName FROM viewratings WHERE companyName='";
 			while ($row = $hotels->fetch_assoc())
 			{
@@ -107,7 +107,7 @@ Released   : 20130428
 		<h2><a>Friendly Filter</a></h2>
 		<form method="post" action="rating_viewfilter.php">
 		<?php
-			$hotels = $conn->query("SELECT * FROM hotels GROUP BY companyName ORDER BY companyName");
+			$hotels = $conn->query("SELECT * FROM hotels ORDER BY companyName");
 			while ($row = $hotels->fetch_assoc())
 			{
 				$h_name = $row['companyName'];

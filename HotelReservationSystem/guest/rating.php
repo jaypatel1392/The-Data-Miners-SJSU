@@ -30,8 +30,8 @@ Released   : 20130428
 </div>
 <div id="menu" class="container">
 	<ul>
+		<li><a href="../index.php">Homepage</a></li>
        	<li><a href="rent.php">Reserve a Room</a></li>
-        <li><a href="price_calculator.php">Compare Prices</a></li>
 		<li><a href="cancel.php">Cancel Reservation</a></li>
 		<li><a href="rating_view.php">Hotel Ratings</a></li>
 		<li><a href="feedback.php">Leave Feedback</a></li>

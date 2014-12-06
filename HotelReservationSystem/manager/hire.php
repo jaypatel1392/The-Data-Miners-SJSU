@@ -68,9 +68,6 @@ include("../dbconnect.php") ?>
             </tr>
         </table>
         </form>
-					
-		
-	?>
 </div>
 
 

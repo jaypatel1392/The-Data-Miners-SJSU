@@ -44,53 +44,44 @@ include("../dbconnect.php") ?>
 		print "<h2 align='center'>$hotelname Manager Services</h2>"; 
 		print "<h3 align='center'>Fire an employee</h3>";
 		
-			$sql = "SELECT name, eID
+		$sql = "SELECT name, eID
 				FROM employee 
 				WHERE hID = '$hID'
-				AND name <> '$managername' AND position <> 'Owner';";
+				AND name <> '$managername';";
 				$result = mysqli_query($conn, $sql);
-				$bleh = mysqli_fetch_array($result)?>
-<?if(empty($bleh)):?>
-<p>You have no employees to fire!</p>
-<?else:?>
-<div class="container">
-	<form action="fireConfirm.php" method="post"> 
-		<table align="center">
-				<tr>
-		<td><label class="formtext">Select an employee to fire: </label></td>
-		<td>
-		<select name="employee" class="inputs">
+				
+		if(empty(mysqli_fetch_array($result))) {
+			print "<p>You have no employees to fire!</p>";
+		} else {
+			print "<div class='container'>
+				   <form action='fireConfirm.php' method='post'> 
+				   <table align='center'>
+				   <tr>
+						<td><label class='formtext'>Select an employee to fire: </label></td>
+						<td>
+						<select name='employee' class='inputs'>";
 
-		<?php
-		
-		
-				$name = $bleh['name'];
-				$eID = $bleh['eID'];
-		
-				print "<option  value=\"$name\">ID: $eID Name: $name</option>";
-		
 				if($result) 
 				{
 						while(list($name, $eID) = mysqli_fetch_array($result)) 
 						{
-						print "<option  value=\"$eID\">ID: $eID Name: $name</option>";
+							print "<option  value=\"$eID\">ID: $eID Name: $name</option>";
+						}
 				}
-				}
-		?>
-		                    </select>
-		                </td>
+			print "			</select>
+						</td>
 		            </tr>
 		            <tr>
-            	<td colspan="2" align="center">
-            		<input type="submit" value="Fire this employee" class="btn"/>
-                </td>
-            </tr>
+						<td colspan='2' align='center'>
+							<input type='submit' value='Fire this employee' class='btn'/>
+						</td>
+					</tr>
 		            </table>
 		            </form>
-<?endif?>
-</div>
 
-
+			</div>";
+		}
+		?>
 <div id="footer" class="container">
 	<p>&copy; JAT RESRVATION SYSTEM. All rights reserved. Design by JAT<p>
 </div>
