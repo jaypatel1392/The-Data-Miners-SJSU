@@ -50,7 +50,7 @@ include("../dbconnect.php") ?>
 		$result = mysqli_query($conn, $sql);
 		      
         if($result) {
-			print "<p><label class=\"formtext\">Cancle Customer's Reservation: </label>";
+			print "<p><label class=\"formtext\">Cancel Customer's Reservation: </label>";
 			print "<select name=\"customer\" class=\"inputs\">";   
 			
 			$cid = -1;

@@ -30,8 +30,8 @@ Released   : 20130428
 </div>
 <div id="menu" class="container">
 	<ul>
-		<li class="current_page_item"><a href="../index.php">Homepage</a></li>
-        <li><a href="register.php">Register</a></li>
+		<li><a href="../index.php">Homepage</a></li>
+        <li class="current_page_item"><a href="register.php">Register</a></li>
 	</ul>
 </div>
 
