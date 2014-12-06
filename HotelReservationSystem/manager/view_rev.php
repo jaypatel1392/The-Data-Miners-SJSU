@@ -32,13 +32,13 @@ include("../dbconnect.php") ?>
 	<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post"> <!--SEND TO charge.php afterwards -->
 	<?php
 		$hotelname = $_SESSION['hotelname'];
-		$hID = $_SESSION["hid"]; 
+		$hID = $_SESSION['hid']; 
 		$managername = $_SESSION['managername'];
 		$formSubmitted = $_SERVER["REQUEST_METHOD"] == "POST";
 		print "<h1 align='center'>Welcome $managername</h1>";
 		print "<h2 align='center'>$hotelname Revenue</h2>"; 
 		print "<br/><br/>";
-		
+				
         echo "<div id=\"box3\"><h3>Revenue Options</h3>
     		<input type='radio' name='change_value' value='true'><label>Smoking Rooms Only</label><br/>
 			<input type='radio' name='change_value' value='false'><label>Non-Smoking Rooms Only</label><br/>
@@ -47,13 +47,11 @@ include("../dbconnect.php") ?>
 			</form>";
 		
 		function displayRev($hname, $hid, $option, $conn) {
-			$sql = "SELECT companyName as h_name, sum(price) as revenue
-					FROM rooms AS r LEFT OUTER JOIN customer AS c 
-						ON r.rID = c.rID AND r.hID = c.hID
-						AND r.hID = $hid AND c.hID = $hid
-					JOIN hotels
-					WHERE companyName = '$hname' AND r.smoking = $option
-					ORDER BY price";
+			$sql = "SELECT sum(total) as revenue
+					From 
+						(SELECT a.hID, a.rID, price, name, smoker, ((rEndDate - rStartDate) * price) - ((rEndDate - rStartDate) * price * (discount / 100)) as total 
+	 					from (select h.hID, r.rID, price FROM hotels h natural join rooms r) a left outer join customer c on a.rID = c.rID and a.hID = c.hID
+	 					where cID is not null AND SMOKER = $option AND a.hID = $hid) q;";
 			$result = mysqli_query($conn, $sql);
 	        if($result) {
     	    	$result = $result->fetch_assoc();
@@ -62,23 +60,20 @@ include("../dbconnect.php") ?>
 	    	    } else {
 	    	    	echo "<h2>$hname Revenue for Non-Smoking Rooms</h2>";
 	    	    }
-        		echo $result['h_name'] . " and " . " profit: $" . $result['revenue'];
+        		echo $hname . " and " . " profit: $" . $result['revenue'];
 	        }
 		}
 		
 		function display($hname, $hid, $conn) {
-			$sql = "SELECT companyName as h_name, sum(price) as revenue
-					FROM rooms AS r LEFT OUTER JOIN customer AS c 
-						ON r.rID = c.rID AND r.hID = c.hID
-						AND r.hID = $hid AND c.hID = $hid
-					JOIN hotels
-					WHERE companyName = '$hname'
-					ORDER BY price";
+			$sql = "SELECT sum(total) as revenue
+					From (SELECT a.hID, a.rID, price, name, smoker, ((rEndDate - rStartDate) * price) - ((rEndDate - rStartDate) * price * (discount / 100)) as total 
+	 					  from (select h.hID, r.rID, price FROM hotels h natural join rooms r) a left outer join customer c on a.rID = c.rID and a.hID = c.hID
+	 					  where cID is not null AND a.hID = $hid) q;";
 			$result = mysqli_query($conn, $sql);
 	        if($result) {
     	    	$result = $result->fetch_assoc();
     	    	echo "<h2>$hname Total Revenue</h2>";
-        		echo $result['h_name'] . " and " . " profit: $" . $result['revenue'];
+        		echo $hname . " and " . " profit: $" . $result['revenue'];
 	        }
 		}
 		
