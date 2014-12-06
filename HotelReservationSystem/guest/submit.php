@@ -53,6 +53,14 @@ Released   : 20130428
 				$credit = mysqli_real_escape_string($conn,$_POST['CC']);
 				$discount = mysqli_real_escape_string($conn,$_POST['discount']);
 				$smoke = mysqli_real_escape_string($conn,$_POST['smoke']);
+				if($smoke)
+				{
+					$smoke = 1;
+				}
+				else 
+				{
+					$smoke = 0;
+				}
 				if(empty($hotel) || empty($room) || empty($name) || empty($address) || empty($credit) || empty($smoke))
 				{
 					$error = true;
