@@ -6,7 +6,7 @@ First make sure that our schema is already on the database.
 
 $servername = "localhost";
 $username = "root";
-$password = "root"; 
+$password = ""; 
 $dbname = "jat_reservation";
 
 // Create connection
