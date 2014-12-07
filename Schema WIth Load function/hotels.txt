@@ -3,5 +3,3 @@
 3	Embassy Suites	Boston	35
 4	Hyatt	Chicago	20
 5	Caesars Palace	Las Vegas	60
-6	Marriott	San Francisco	30
-7	Embassy Suites	San Francisco	30
